@@ -4,6 +4,16 @@ import { glob } from 'astro/loaders';
 const dateSchema = z
   .string()
   .regex(/^\d{4}-\d{2}-\d{2}$/, 'date must be "YYYY-MM-DD" (with quotes)')
+  .refine((val) => {
+    // 日历回验：拦下 2026-13-45 这类溢出日期
+    const [y, m, d] = val.split('-').map(Number);
+    const dt = new Date(Date.UTC(y, m - 1, d));
+    return (
+      dt.getUTCFullYear() === y &&
+      dt.getUTCMonth() === m - 1 &&
+      dt.getUTCDate() === d
+    );
+  }, 'date is not a valid calendar date')
   .transform((val) => new Date(val + 'T00:00:00+08:00'));
 
 const posts = defineCollection({
