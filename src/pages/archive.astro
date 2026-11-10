@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostList from '../components/PostList.astro';
+import { getPostsByYear } from '../lib/posts';
+
+const grouped = await getPostsByYear();
+const years = Object.keys(grouped).map(Number).sort((a, b) => b - a);
+---
+
+<BaseLayout title="归档">
+  <h1 style="margin-top:0.5rem;">归档</h1>
+  {years.length === 0 ? (
+    <p class="post-empty">暂无文章</p>
+  ) : (
+    years.map((year) => (
+      <section>
+        <h2 class="archive-year">{year}</h2>
+        <PostList posts={grouped[year]} />
+      </section>
+    ))
+  )}
+</BaseLayout>

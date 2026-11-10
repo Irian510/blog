@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://irian510.github.io/blog/sitemap-index.xml

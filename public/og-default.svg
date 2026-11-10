@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb"/>
+      <stop offset="100%" style="stop-color:#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <text x="400" y="250" text-anchor="middle" font-family="-apple-system,Segoe UI,PingFang SC,sans-serif" font-size="120" font-weight="700" fill="#fff" opacity="0.9">Irian</text>
+  <text x="400" y="320" text-anchor="middle" font-family="-apple-system,Segoe UI,PingFang SC,sans-serif" font-size="28" fill="#fff" opacity="0.7">个人博客</text>
+</svg>

@@ -1,0 +1,28 @@
+---
+import { NAV, SITE_TITLE } from '../consts';
+import { withBase } from '../lib/url';
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme') || 'light';
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  try { localStorage.setItem('theme', next); } catch (e) {}
+}
+---
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href={withBase('/')}>{SITE_TITLE}</a>
+    <div class="nav-links">
+      {NAV.map((item) => (
+        <a href={withBase(item.href)}>{item.label}</a>
+      ))}
+      <button class="theme-toggle" onclick="toggleTheme()">🌓 主题</button>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // 主题切换按钮的 click handler 已在 onclick 内联绑定
+</script>

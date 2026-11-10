@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { getAllTags } from '../../lib/posts';
+import { withBase } from '../../lib/url';
+
+const tags = await getAllTags();
+---
+
+<BaseLayout title="标签">
+  <h1 style="margin-top:0.5rem;">标签</h1>
+  {tags.length === 0 ? (
+    <p class="post-empty">暂无标签</p>
+  ) : (
+    <ul class="tag-list">
+      {tags.map((tag) => (
+        <li><a href={withBase(`/tags/${encodeURIComponent(tag)}/`)}>#{tag}</a></li>
+      ))}
+    </ul>
+  )}
+</BaseLayout>

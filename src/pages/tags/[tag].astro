@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { withBase } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  const published = posts.filter((p) => !p.data.draft);
+  const tagSet = new Set<string>();
+  published.forEach((p) => p.data.tags.forEach((t) => tagSet.add(t)));
+  return Array.from(tagSet).map((tag) => ({
+    params: { tag },
+    props: { tag },
+  }));
+}
+
+const { tag } = Astro.props;
+const all = await getCollection('posts');
+const posts = all
+  .filter((p) => !p.data.draft && p.data.tags.includes(tag))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title={`#${tag}`}>
+  <h1 style="margin-top:0.5rem;">#{tag}</h1>
+  <PostList posts={posts} />
+  <p><a href={withBase('/tags/')}>← 返回所有标签</a></p>
+</BaseLayout>

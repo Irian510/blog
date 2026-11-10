@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostList from '../components/PostList.astro';
+import { getPublishedPosts } from '../lib/posts';
+
+const posts = await getPublishedPosts();
+---
+
+<BaseLayout>
+  <h1 style="margin-top:0.5rem;">最新文章</h1>
+  <PostList posts={posts} />
+</BaseLayout>
