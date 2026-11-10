@@ -11,22 +11,31 @@ const { posts } = Astro.props;
 ---
 
 {posts.length === 0 ? (
-  <p class="post-empty">暂无文章，敬请期待 ✨</p>
+  <p class="post-empty">暂无文章，敬请期待</p>
 ) : (
   <ul class="post-list">
     {posts.map((post) => (
-      <li class="post-item">
-        <a href={withBase(`/posts/${post.id}/`)}>{post.data.title}</a>
-        <div class="post-meta">
-          <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+      <li>
+        <article class="post-card">
+          <div class="post-card-head">
+            <h3 class="post-card-title">
+              <a class="post-card-link" href={withBase(`/posts/${post.id}/`)}>{post.data.title}</a>
+            </h3>
+            <time class="post-card-date" datetime={post.data.date.toISOString()}>
+              {formatDate(post.data.date)}
+            </time>
+          </div>
+
+          {post.data.description && <p class="post-card-desc">{post.data.description}</p>}
+
           {post.data.tags.length > 0 && (
-            <span class="post-tags">
+            <div class="post-card-foot">
               {post.data.tags.map((tag) => (
-                <a class="post-tag" href={withBase(`/tags/${encodeURIComponent(tag)}/`)}>#{tag}</a>
+                <a class="tag-pill" href={withBase(`/tags/${encodeURIComponent(tag)}/`)}>#{tag}</a>
               ))}
-            </span>
+            </div>
           )}
-        </div>
+        </article>
       </li>
     ))}
   </ul>

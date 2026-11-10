@@ -23,7 +23,10 @@ const posts = all
 ---
 
 <BaseLayout title={`#${tag}`}>
-  <h1 style="margin-top:0.5rem;">#{tag}</h1>
+  <header class="page-head">
+    <h1 class="page-title">#{tag}</h1>
+    <p class="page-sub">共 {posts.length} 篇文章 · <a href={withBase('/tags/')}>返回全部标签</a></p>
+  </header>
+
   <PostList posts={posts} />
-  <p><a href={withBase('/tags/')}>← 返回所有标签</a></p>
 </BaseLayout>

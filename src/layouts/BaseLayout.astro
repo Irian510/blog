@@ -1,5 +1,5 @@
 ---
-import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR } from '../consts';
+import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR, GITHUB_USER } from '../consts';
 import { withBase } from '../lib/url';
 import Nav from '../components/Nav.astro';
 import '../styles/global.css';
@@ -21,6 +21,8 @@ const pageDesc = description || SITE_DESCRIPTION;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{pageTitle}</title>
     <meta name="description" content={pageDesc} />
+    <meta name="theme-color" content="#f5f6f9" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0a0c11" media="(prefers-color-scheme: dark)" />
     <link rel="canonical" href={Astro.url.toString()} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDesc} />
@@ -49,8 +51,15 @@ const pageDesc = description || SITE_DESCRIPTION;
       </div>
     </main>
     <footer class="footer">
-      <div class="container">
-        © {new Date().getFullYear()} {AUTHOR} · Built with Astro
+      <div class="footer-inner">
+        <span>© {new Date().getFullYear()} {AUTHOR}</span>
+        <span class="footer-links">
+          <a href={withBase('/rss.xml')}>RSS</a>
+          <span class="sep">·</span>
+          <a href={`https://github.com/${GITHUB_USER}`} target="_blank" rel="noopener noreferrer">GitHub</a>
+          <span class="sep">·</span>
+          <span>Built with Astro</span>
+        </span>
       </div>
     </footer>
   </body>

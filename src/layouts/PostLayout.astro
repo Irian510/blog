@@ -6,12 +6,12 @@ import BaseLayout from './BaseLayout.astro';
 
 interface Props {
   post: CollectionEntry<'posts'>;
+  prev?: CollectionEntry<'posts'>;
+  next?: CollectionEntry<'posts'>;
 }
 
-const { post } = Astro.props;
+const { post, prev, next } = Astro.props;
 const { data } = post;
-const prev = Astro.props.prev;
-const next = Astro.props.next;
 ---
 
 <BaseLayout title={data.title} description={data.description}>
@@ -23,29 +23,29 @@ const next = Astro.props.next;
         {data.tags.length > 0 && (
           <span class="post-tags">
             {data.tags.map((tag) => (
-              <a class="post-tag" href={withBase(`/tags/${encodeURIComponent(tag)}/`)}>#{tag}</a>
+              <a class="tag-pill" href={withBase(`/tags/${encodeURIComponent(tag)}/`)}>#{tag}</a>
             ))}
           </span>
         )}
       </div>
     </header>
 
-    <div class="post-content">
+    <div class="prose">
       <slot />
     </div>
 
     {(prev || next) && (
       <nav class="post-nav" aria-label="文章导航">
         {prev ? (
-          <a href={withBase(`/posts/${prev.id}/`)}>
+          <a class="post-nav-item prev" href={withBase(`/posts/${prev.id}/`)}>
             <span class="post-nav-label">← 上一篇</span>
-            {prev.data.title}
+            <span class="post-nav-title">{prev.data.title}</span>
           </a>
         ) : <span />}
         {next ? (
-          <a href={withBase(`/posts/${next.id}/`)} style="text-align:right;">
+          <a class="post-nav-item next" href={withBase(`/posts/${next.id}/`)}>
             <span class="post-nav-label">下一篇 →</span>
-            {next.data.title}
+            <span class="post-nav-title">{next.data.title}</span>
           </a>
         ) : <span />}
       </nav>

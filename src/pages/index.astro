@@ -1,12 +1,21 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
 import PostList from '../components/PostList.astro';
 import { getPublishedPosts } from '../lib/posts';
+import { withBase } from '../lib/url';
 
 const posts = await getPublishedPosts();
 ---
 
 <BaseLayout>
-  <h1 style="margin-top:0.5rem;">最新文章</h1>
-  <PostList posts={posts} />
+  <Hero />
+
+  <section>
+    <div class="section-head">
+      <h2 class="section-title">最新文章</h2>
+      <a class="section-more" href={withBase('/archive/')}>全部归档 →</a>
+    </div>
+    <PostList posts={posts} />
+  </section>
 </BaseLayout>

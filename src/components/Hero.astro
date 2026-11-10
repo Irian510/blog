@@ -1,0 +1,23 @@
+---
+import { SITE_TITLE, SITE_TAGLINE, GITHUB_USER } from '../consts';
+import { withBase } from '../lib/url';
+---
+
+<section class="hero">
+  <div class="hero-avatar">
+    <img src={withBase('/avatar.svg')} alt={`${SITE_TITLE} 的头像`} width="78" height="78" />
+  </div>
+
+  <div class="hero-body">
+    <h1 class="hero-name">{SITE_TITLE}</h1>
+    <p class="hero-tagline">{SITE_TAGLINE}</p>
+
+    <div class="hero-links">
+      <a class="hero-link" href={`https://github.com/${GITHUB_USER}`} target="_blank" rel="noopener noreferrer">
+        GitHub
+      </a>
+      <a class="hero-link" href={withBase('/rss.xml')}>RSS 订阅</a>
+      <a class="hero-link" href={withBase('/about/')}>关于我</a>
+    </div>
+  </div>
+</section>

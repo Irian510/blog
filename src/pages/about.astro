@@ -3,17 +3,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="关于">
-  <h1 style="margin-top:0.5rem;">关于</h1>
-  <div class="post-content">
-    <p>你好，我是 <strong>Irian</strong> 👋</p>
+  <header class="page-head">
+    <h1 class="page-title">关于</h1>
+    <p class="page-sub">你好，我是 Irian</p>
+  </header>
+
+  <div class="prose">
     <p>这里是我的个人博客，我会在这里记录学习笔记、技术文章和一些生活日常。</p>
 
     <h2>联系方式</h2>
     <ul>
-      <li>GitHub: <a href="https://github.com/Irian510" target="_blank">Irian510</a></li>
+      <li>GitHub：<a href="https://github.com/Irian510" target="_blank" rel="noopener noreferrer">Irian510</a></li>
     </ul>
 
     <h2>关于本站</h2>
-    <p>本站基于 <a href="https://astro.build/" target="_blank">Astro</a> 构建，部署在 GitHub Pages。</p>
+    <p>本站基于 <a href="https://astro.build/" target="_blank" rel="noopener noreferrer">Astro</a> 构建，源码托管在 GitHub，通过 GitHub Actions 自动部署到 GitHub Pages。</p>
   </div>
 </BaseLayout>
