@@ -10,6 +10,7 @@ export const SITE_URL = 'https://irian510.github.io/blog';
 
 export const NAV = [
   { label: '首页', href: '/' },
+  { label: '作品', href: '/works/' },
   { label: '归档', href: '/archive/' },
   { label: '标签', href: '/tags/' },
   { label: '关于', href: '/about/' },

@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../lib/url';
+
+// 作品清单：静态页放在 public/works/<目录>/，href 指向该目录
+const works = [
+  {
+    title: '长安十二时辰 · 靖安司案牍库',
+    desc: '以《长安十二时辰》里靖安司的案牍库为设定做的主题单页：十二时辰、一百零八坊、望楼信令、人物志、成片与上元灯火六个章节，配逐时辰的画面与内嵌视频。整站手写 HTML / CSS / JS，没有用框架。',
+    cover: '/works/changan/images/s012.jpg',
+    href: '/works/changan/',
+    tags: ['HTML', 'CSS', 'JavaScript', '主题创作'],
+    year: '2026',
+  },
+];
+---
+
+<BaseLayout title="作品">
+  <header class="page-head">
+    <h1 class="page-title">作品</h1>
+    <p class="page-sub">课程作业，和一些自己想做的东西</p>
+  </header>
+
+  <div class="work-list">
+    {works.map((work) => (
+      <a class="work-card" href={withBase(work.href)} target="_blank" rel="noopener noreferrer">
+        <div class="work-cover">
+          <img src={withBase(work.cover)} alt={work.title} loading="lazy" />
+        </div>
+        <div class="work-body">
+          <h2 class="work-title">
+            {work.title}
+            <span class="work-arrow">↗</span>
+          </h2>
+          <p class="work-desc">{work.desc}</p>
+          <div class="work-foot">
+            {work.tags.map((tag) => <span class="tag-pill">{tag}</span>)}
+            <span class="work-year">{work.year}</span>
+          </div>
+        </div>
+      </a>
+    ))}
+  </div>
+</BaseLayout>

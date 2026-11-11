@@ -950,6 +950,119 @@ html[data-theme='dark'] .astro-code span {
   font-size: 0.85rem;
 }
 
+/* ---------- 作品 ---------- */
+.work-list {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.work-card {
+  display: grid;
+  grid-template-columns: 236px 1fr;
+  gap: 1.15rem;
+  padding: 0.85rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: var(--glass);
+  -webkit-backdrop-filter: var(--glass);
+  color: inherit;
+  transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
+}
+
+.work-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-line);
+  box-shadow: var(--shadow-md);
+  color: inherit;
+}
+
+.work-cover {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  aspect-ratio: 4 / 3;
+  background: var(--accent-soft);
+}
+
+.work-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.work-card:hover .work-cover img {
+  transform: scale(1.06);
+}
+
+.work-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.35rem 0.55rem 0.35rem 0;
+}
+
+.work-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  color: var(--text);
+  font-size: 1.12rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+}
+
+.work-arrow {
+  color: var(--accent);
+  font-size: 0.95rem;
+  transition: transform 0.2s ease;
+}
+
+.work-card:hover .work-arrow {
+  transform: translate(2px, -2px);
+}
+
+.work-desc {
+  margin: 0.5rem 0 0.9rem;
+  color: var(--text-soft);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.work-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.work-year {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 600px) {
+  .work-card {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .work-cover {
+    aspect-ratio: 16 / 10;
+  }
+
+  .work-body {
+    padding: 0 0.35rem 0.5rem;
+  }
+}
+
 /* ---------- 页脚 ---------- */
 .footer {
   border-top: 1px solid var(--border);
