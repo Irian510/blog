@@ -1,0 +1,396 @@
+---
+// 互动一：拖动时间轴，看同一片麦田在一天里如何换色
+const presets = [
+  {
+    time: '06:10',
+    label: '晨雾',
+    caption: '干草堆还带着露水，天空是灰蓝的，光是冷的。莫奈通常在这个时刻支起画布。',
+    palette: ['#c3d3da', '#93a89a', '#d9b06c', '#7e8ea3'],
+    vars: {
+      '--sky-a': '#c6d6dc',
+      '--sky-b': '#eaf0e8',
+      '--sun': '#f2e8d2',
+      '--sun-op': '0.4',
+      '--sun-y': '16%',
+      '--sun-x': '62%',
+      '--hill-far': '#b6c6c1',
+      '--hill-near': '#8ba39a',
+      '--ground': '#c7bb95',
+      '--hay-a': '#ddc58f',
+      '--hay-b': '#b09a63',
+      '--stars': '0',
+    },
+  },
+  {
+    time: '09:30',
+    label: '上午',
+    caption: '太阳升高，草垛顶端先亮起来，影子变短，颜色开始分离。',
+    palette: ['#a9c9d6', '#d9d3a8', '#e0b565', '#8d9f86'],
+    vars: {
+      '--sky-a': '#a9c9d6',
+      '--sky-b': '#dfe9ec',
+      '--sun': '#fdf3d8',
+      '--sun-op': '0.75',
+      '--sun-y': '8%',
+      '--sun-x': '34%',
+      '--hill-far': '#a9bfb4',
+      '--hill-near': '#7d9784',
+      '--ground': '#cdbb87',
+      '--hay-a': '#e8ca86',
+      '--hay-b': '#b8944f',
+      '--stars': '0',
+    },
+  },
+  {
+    time: '13:00',
+    label: '正午',
+    caption: '正午把颜色压平，几乎没有阴影可用。莫奈却说，这是一天里最难画的时刻。',
+    palette: ['#8fc2d8', '#e8d79f', '#d9a84e', '#9a9a72'],
+    vars: {
+      '--sky-a': '#8fc2d8',
+      '--sky-b': '#cfe4ea',
+      '--sun': '#fffbe8',
+      '--sun-op': '0.9',
+      '--sun-y': '-4%',
+      '--sun-x': '44%',
+      '--hill-far': '#9db8a6',
+      '--hill-near': '#708d74',
+      '--ground': '#d3bd81',
+      '--hay-a': '#efd287',
+      '--hay-b': '#bb9448',
+      '--stars': '0',
+    },
+  },
+  {
+    time: '16:40',
+    label: '午后',
+    caption: '光开始转暖，草垛的边缘泛出橙金色，影子被拉长，带一点紫。',
+    palette: ['#d8b98e', '#e6b76a', '#c67f4e', '#7d7f9b'],
+    vars: {
+      '--sky-a': '#dcc09b',
+      '--sky-b': '#f2ddc0',
+      '--sun': '#ffe0a8',
+      '--sun-op': '0.85',
+      '--sun-y': '22%',
+      '--sun-x': '16%',
+      '--hill-far': '#b9a98d',
+      '--hill-near': '#8d7b62',
+      '--ground': '#cba86f',
+      '--hay-a': '#f0c374',
+      '--hay-b': '#b87a37',
+      '--stars': '0',
+    },
+  },
+  {
+    time: '19:20',
+    label: '日落',
+    caption: '日落。天空和地面互换颜色，草垛成了暗色的剪影，影子是蓝紫色的。',
+    palette: ['#c98a7e', '#e6a76c', '#6d6a91', '#4e5a75'],
+    vars: {
+      '--sky-a': '#d4938a',
+      '--sky-b': '#f0c091',
+      '--sun': '#ffd0a0',
+      '--sun-op': '0.9',
+      '--sun-y': '46%',
+      '--sun-x': '60%',
+      '--hill-far': '#8c7a86',
+      '--hill-near': '#5f5a72',
+      '--ground': '#8a6d62',
+      '--hay-a': '#a87a58',
+      '--hay-b': '#6b4f45',
+      '--stars': '0',
+    },
+  },
+  {
+    time: '21:30',
+    label: '夜色',
+    caption: '夜色把一切收进蓝紫，只剩轮廓。印象派之后，夜晚第一次不再用黑色来画。',
+    palette: ['#2f3b57', '#4a5478', '#6d6d97', '#8f8ab0'],
+    vars: {
+      '--sky-a': '#24304a',
+      '--sky-b': '#4a5678',
+      '--sun': '#e8e6f2',
+      '--sun-op': '0.5',
+      '--sun-y': '12%',
+      '--sun-x': '30%',
+      '--hill-far': '#3a4560',
+      '--hill-near': '#2a3148',
+      '--ground': '#2e3247',
+      '--hay-a': '#4d4b63',
+      '--hay-b': '#2b2b3d',
+      '--stars': '0.85',
+    },
+  },
+];
+
+const initial = presets[3];
+---
+
+<div class="light-clock" data-light-clock data-presets={JSON.stringify(presets)}>
+  <div class="lc-frame" data-frame style={`--sky-a:${initial.vars['--sky-a']};--sky-b:${initial.vars['--sky-b']};--sun:${initial.vars['--sun']};--sun-op:${initial.vars['--sun-op']};--sun-y:${initial.vars['--sun-y']};--sun-x:${initial.vars['--sun-x']};--hill-far:${initial.vars['--hill-far']};--hill-near:${initial.vars['--hill-near']};--ground:${initial.vars['--ground']};--hay-a:${initial.vars['--hay-a']};--hay-b:${initial.vars['--hay-b']};--stars:${initial.vars['--stars']};`}>
+    <span class="lc-stars"></span>
+    <span class="lc-sun"></span>
+    <span class="lc-hill lc-hill-far"></span>
+    <span class="lc-hill lc-hill-near"></span>
+    <span class="lc-ground"></span>
+    <span class="lc-hay lc-hay-back"></span>
+    <span class="lc-hay lc-hay-front"></span>
+    <span class="lc-grain"></span>
+    <span class="lc-stamp">Meules · 1890–91 的取景</span>
+  </div>
+
+  <div class="lc-controls">
+    <div class="lc-head">
+      <strong class="lc-time" data-time>{initial.time}</strong>
+      <span class="lc-label" data-label>{initial.label}</span>
+      <span class="lc-palette" data-palette>
+        {initial.palette.map((c) => <i style={`background:${c}`} />)}
+      </span>
+    </div>
+    <input
+      class="lc-range"
+      type="range"
+      min="0"
+      max={presets.length - 1}
+      step="1"
+      value="3"
+      data-slider
+      aria-label="选择一天中的时刻"
+    />
+    <p class="lc-caption" data-caption aria-live="polite">{initial.caption}</p>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('[data-light-clock]').forEach((root) => {
+    const presets = JSON.parse(root.dataset.presets || '[]');
+    const frame = root.querySelector('[data-frame]');
+    const slider = root.querySelector('[data-slider]');
+    const timeEl = root.querySelector('[data-time]');
+    const labelEl = root.querySelector('[data-label]');
+    const captionEl = root.querySelector('[data-caption]');
+    const paletteEl = root.querySelector('[data-palette]');
+    let timer = 0;
+
+    const apply = (index) => {
+      const preset = presets[index];
+      timeEl.textContent = preset.time;
+      labelEl.textContent = preset.label;
+      captionEl.textContent = preset.caption;
+      paletteEl.innerHTML = preset.palette
+        .map((color) => `<i style="background:${color}"></i>`)
+        .join('');
+
+      frame.classList.add('is-shifting');
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        Object.entries(preset.vars).forEach(([key, value]) => {
+          frame.style.setProperty(key, value);
+        });
+        frame.classList.remove('is-shifting');
+      }, 200);
+    };
+
+    slider.addEventListener('input', () => apply(Number(slider.value)));
+  });
+</script>
+
+<style>
+  .light-clock {
+    margin: 2.2rem 0 2.4rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+    overflow: hidden;
+  }
+
+  .lc-frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--sky-a), var(--sky-b));
+    transition: background 0.6s ease;
+  }
+
+  .lc-frame.is-shifting > *:not(.lc-grain) {
+    opacity: 0.35 !important;
+  }
+
+  .lc-frame > span {
+    transition: opacity 0.5s ease, top 0.6s ease, background 0.6s ease;
+  }
+
+  .lc-stars {
+    position: absolute;
+    inset: 0;
+    opacity: var(--stars);
+    background-image: radial-gradient(1.4px 1.4px at 20% 18%, #fff, transparent),
+      radial-gradient(1.2px 1.2px at 62% 12%, #fff, transparent),
+      radial-gradient(1px 1px at 84% 26%, #fff, transparent),
+      radial-gradient(1.1px 1.1px at 38% 8%, #fff, transparent),
+      radial-gradient(1.3px 1.3px at 74% 34%, #fff, transparent);
+    background-size: 100% 100%;
+    pointer-events: none;
+  }
+
+  .lc-sun {
+    position: absolute;
+    top: var(--sun-y);
+    right: var(--sun-x);
+    width: 34%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    opacity: var(--sun-op);
+    background: radial-gradient(circle, var(--sun) 0%, transparent 68%);
+    transition: opacity 0.6s ease, background 0.6s ease, top 0.6s ease,
+      right 0.6s ease;
+    pointer-events: none;
+  }
+
+  .lc-hill {
+    position: absolute;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    transition: background 0.6s ease;
+  }
+
+  .lc-hill-far {
+    left: -12%;
+    right: 28%;
+    bottom: 22%;
+    height: 26%;
+    background: var(--hill-far);
+    opacity: 0.7;
+  }
+
+  .lc-hill-near {
+    left: 18%;
+    right: -18%;
+    bottom: 22%;
+    height: 18%;
+    background: var(--hill-near);
+    opacity: 0.85;
+  }
+
+  .lc-ground {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 26%;
+    background: linear-gradient(180deg, var(--ground), color-mix(in srgb, var(--ground) 78%, #2a2318));
+    transition: background 0.6s ease;
+  }
+
+  .lc-hay {
+    position: absolute;
+    bottom: 22%;
+    border-radius: 46% 54% 8% 8% / 78% 78% 6% 6%;
+    background: linear-gradient(105deg, var(--hay-a), var(--hay-b) 72%);
+    box-shadow: inset -12px -14px 26px rgba(0, 0, 0, 0.14),
+      18px 12px 26px -12px rgba(30, 20, 10, 0.35);
+    transition: background 0.6s ease;
+  }
+
+  .lc-hay-front {
+    left: 42%;
+    width: 28%;
+    height: 30%;
+  }
+
+  .lc-hay-back {
+    left: 19%;
+    width: 21%;
+    height: 22%;
+    filter: brightness(0.93);
+  }
+
+  .lc-grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.16;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .lc-stamp {
+    position: absolute;
+    left: 1rem;
+    bottom: 0.9rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.55);
+    color: rgba(30, 30, 30, 0.62);
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    backdrop-filter: blur(6px);
+  }
+
+  .lc-controls {
+    padding: 1rem 1.2rem 1.15rem;
+  }
+
+  .lc-head {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .lc-time {
+    font-size: 1.05rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+
+  .lc-label {
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 0.75rem;
+  }
+
+  .lc-palette {
+    margin-left: auto;
+    display: inline-flex;
+    gap: 0.28rem;
+  }
+
+  .lc-palette i {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+  }
+
+  .lc-range {
+    width: 100%;
+    margin: 0.75rem 0 0.35rem;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  .lc-caption {
+    margin: 0;
+    min-height: 3.2em;
+    color: var(--text-soft);
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 560px) {
+    .lc-caption {
+      min-height: 4.4em;
+    }
+
+    .lc-stamp {
+      font-size: 0.66rem;
+    }
+  }
+</style>

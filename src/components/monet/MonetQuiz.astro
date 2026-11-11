@@ -1,0 +1,207 @@
+---
+// 互动四：三道小测，答完给解析
+const questions = [
+  {
+    q: '“印象派”这个名字，最初是怎么来的？',
+    options: [
+      { text: '莫奈和朋友们给自⼰起的名字', ok: false },
+      { text: '评论家借《印象·日出》的画名写文章嘲讽', ok: true },
+      { text: '画商为了好卖而发明的营销词', ok: false },
+    ],
+    answer:
+      '1874 年，一群被官方沙龙拒之门外的画家在摄影师纳达尔的工作室办展。评论家路易·勒鲁瓦借莫奈《印象·日出》的标题，写了篇题为《印象派展览》的讽刺文章。“印象派”最初是个贬义词，意思是“只有草稿程度的印象”。',
+  },
+  {
+    q: '莫奈画阴影时，最刻意避开的是哪种颜色？',
+    options: [
+      { text: '黑色', ok: true },
+      { text: '蓝色', ok: false },
+      { text: '紫色', ok: false },
+    ],
+    answer:
+      '传统绘画用黑或褐压暗阴影。印象派在户外写生时发现：阴影是被天光照亮的，它带着天空的颜色，于是雪地的影子成了蓝紫，树下的影子成了青灰。不用黑色，画面反而更透亮。',
+  },
+  {
+    q: '橘园美术馆里安放《睡莲》的两个展厅，是什么形状？',
+    options: [
+      { text: '方形', ok: false },
+      { text: '椭圆形', ok: true },
+      { text: '八角形', ok: false },
+    ],
+    answer:
+      '两个椭圆厅各自环抱一圈画布，观众站在中间，四面都是水面。莫奈不想让人“看一幅画”，而是让人被一段时间包住——没有起点，也没有终点。',
+  },
+];
+---
+
+<div class="quiz" data-quiz>
+  {questions.map((item, qi) => (
+    <div class="qz-item" data-item>
+      <p class="qz-q">
+        <span class="qz-index">{String(qi + 1).padStart(2, '0')}</span>
+        {item.q}
+      </p>
+      <div class="qz-options">
+        {item.options.map((opt) => (
+          <button
+            type="button"
+            class="qz-option"
+            data-ok={opt.ok ? 'true' : 'false'}
+            data-answer={item.answer}
+          >
+            {opt.text}
+          </button>
+        ))}
+      </div>
+      <p class="qz-explain" data-explain hidden></p>
+    </div>
+  ))}
+  <div class="qz-score" data-score hidden></div>
+</div>
+
+<script>
+  document.querySelectorAll('[data-quiz]').forEach((quiz) => {
+    const items = Array.from(quiz.querySelectorAll('[data-item]'));
+    let answered = 0;
+    let correct = 0;
+
+    items.forEach((item) => {
+      const options = Array.from(item.querySelectorAll('.qz-option'));
+      const explain = item.querySelector('[data-explain]');
+
+      options.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          if (item.dataset.done === 'true') return;
+          item.dataset.done = 'true';
+          const isRight = btn.dataset.ok === 'true';
+          if (isRight) correct += 1;
+          answered += 1;
+
+          options.forEach((other) => {
+            other.disabled = true;
+            if (other.dataset.ok === 'true') other.classList.add('is-right');
+          });
+          if (!isRight) btn.classList.add('is-wrong');
+
+          explain.textContent = (isRight ? '答对了。' : '换个角度看：') + btn.dataset.answer;
+          explain.hidden = false;
+
+          if (answered === items.length) {
+            const score = quiz.querySelector('[data-score]');
+            if (score) {
+              score.textContent =
+                correct === items.length
+                  ? '三题全中。你大概已经会“看光”了。'
+                  : `答对 ${correct} / ${items.length}。往上翻翻，那几段互动里藏着答案。`;
+              score.hidden = false;
+            }
+          }
+        });
+      });
+    });
+  });
+</script>
+
+<style>
+  .quiz {
+    display: grid;
+    gap: 0.9rem;
+    margin: 2rem 0 0.6rem;
+  }
+
+  .qz-item {
+    padding: 1.1rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+  }
+
+  .qz-q {
+    display: flex;
+    gap: 0.55rem;
+    margin: 0 0 0.8rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .qz-index {
+    flex: none;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.85rem;
+    line-height: 1.85;
+  }
+
+  .qz-options {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .qz-option {
+    padding: 0.55rem 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-soft);
+    font-family: inherit;
+    font-size: 0.86rem;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease,
+      transform 0.18s ease;
+  }
+
+  .qz-option:hover:not(:disabled) {
+    border-color: var(--accent-line);
+    background: var(--accent-soft);
+    color: var(--text);
+    transform: translateX(2px);
+  }
+
+  .qz-option:disabled {
+    cursor: default;
+  }
+
+  .qz-option.is-right {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--text);
+  }
+
+  .qz-option.is-wrong {
+    border-color: #c2705f;
+    background: rgba(194, 112, 95, 0.1);
+    color: var(--text);
+    text-decoration: line-through;
+    text-decoration-color: rgba(194, 112, 95, 0.6);
+  }
+
+  .qz-option:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  .qz-explain {
+    margin: 0.85rem 0 0;
+    padding: 0.7rem 0.85rem;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    background: var(--accent-soft);
+    color: var(--text-soft);
+    font-size: 0.84rem;
+    line-height: 1.78;
+  }
+
+  .qz-score {
+    margin: 0;
+    padding: 0.2rem 0.2rem 0;
+    color: var(--accent);
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+</style>

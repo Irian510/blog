@@ -1,0 +1,210 @@
+---
+// 互动三：切换“白内障视角”，理解莫奈晚年为什么越画越蓝、越画越散
+---
+
+<div class="vision" data-vision>
+  <div class="vt-held">
+    <div class="vt-stage" data-stage>
+      <svg viewBox="0 0 600 340" role="img" aria-label="睡莲池塘的抽象示意">
+        <defs>
+          <linearGradient id="vtSky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#e6ece7" />
+            <stop offset="100%" stop-color="#cfded8" />
+          </linearGradient>
+          <linearGradient id="vtWater" x1="0" y1="0" x2="0.4" y2="1">
+            <stop offset="0%" stop-color="#9dbdb1" />
+            <stop offset="45%" stop-color="#7ea398" />
+            <stop offset="100%" stop-color="#4f6f77" />
+          </linearGradient>
+          <linearGradient id="vtPad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#9fbf8c" />
+            <stop offset="100%" stop-color="#5f8a6a" />
+          </linearGradient>
+          <linearGradient id="vtBloom" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#f7e6ea" />
+            <stop offset="100%" stop-color="#d99bb0" />
+          </linearGradient>
+          <filter id="vtSoft" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" />
+          </filter>
+        </defs>
+
+        <rect width="600" height="150" fill="url(#vtSky)" />
+        <ellipse cx="90" cy="40" rx="120" ry="46" fill="#b9cdb9" opacity="0.55" filter="url(#vtSoft)" />
+        <ellipse cx="470" cy="26" rx="140" ry="40" fill="#cbd9c6" opacity="0.5" filter="url(#vtSoft)" />
+        <rect y="146" width="600" height="194" fill="url(#vtWater)" />
+
+        <g opacity="0.35" filter="url(#vtSoft)">
+          <ellipse cx="300" cy="170" rx="210" ry="9" fill="#dce8df" />
+          <ellipse cx="210" cy="196" rx="150" ry="7" fill="#cfe0d6" />
+          <ellipse cx="420" cy="222" rx="180" ry="8" fill="#b9d0c6" />
+        </g>
+
+        <g>
+          <ellipse cx="150" cy="205" rx="62" ry="24" fill="url(#vtPad)" opacity="0.95" />
+          <ellipse cx="248" cy="255" rx="76" ry="28" fill="url(#vtPad)" opacity="0.9" />
+          <ellipse cx="120" cy="278" rx="58" ry="22" fill="url(#vtPad)" opacity="0.85" />
+          <ellipse cx="420" cy="196" rx="70" ry="26" fill="url(#vtPad)" opacity="0.92" />
+          <ellipse cx="500" cy="262" rx="64" ry="24" fill="url(#vtPad)" opacity="0.88" />
+          <ellipse cx="330" cy="300" rx="88" ry="26" fill="url(#vtPad)" opacity="0.8" />
+        </g>
+
+        <g fill="url(#vtBloom)">
+          <circle cx="200" cy="196" r="9" />
+          <circle cx="214" cy="204" r="6" opacity="0.85" />
+          <circle cx="452" cy="188" r="8" />
+          <circle cx="464" cy="197" r="5" opacity="0.8" />
+          <circle cx="290" cy="248" r="7" opacity="0.9" />
+          <circle cx="362" cy="292" r="6" opacity="0.75" />
+        </g>
+
+        <g stroke="#3f5f66" stroke-width="2" opacity="0.28" fill="none">
+          <path d="M0 168 Q 150 158 300 166 T 600 160" />
+          <path d="M0 236 Q 180 226 340 234 T 600 228" />
+          <path d="M0 292 Q 160 284 330 290 T 600 284" />
+        </g>
+      </svg>
+      <span class="vt-warm" aria-hidden="true"></span>
+      <span class="vt-label" data-label>正常视力</span>
+    </div>
+  </div>
+
+  <div class="vt-bar">
+    <button type="button" class="vt-toggle" data-toggle aria-pressed="false">
+      切换到白内障视角
+    </button>
+    <p class="vt-caption" data-caption aria-live="polite">
+      1923 年接受手术后，莫奈的晶状体被摘除，紫外线大量进入眼睛，他看到的蓝色与紫色比常人更浓——这可能是晚年《睡莲》越来越偏蓝紫的原因之一。
+    </p>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('[data-vision]').forEach((root) => {
+    const stage = root.querySelector('[data-stage]');
+    const button = root.querySelector('[data-toggle]');
+    const label = root.querySelector('[data-label]');
+    const caption = root.querySelector('[data-caption]');
+    let cataract = false;
+
+    const normalText =
+      '1923 年接受手术后，莫奈的晶状体被摘除，紫外线大量进入眼睛，他看到的蓝色与紫色比常人更浓——这可能是晚年《睡莲》越来越偏蓝紫的原因之一。';
+    const cataractText =
+      '白内障会让画面整体泛黄、发褐，对比度下降，细节变得模糊。莫奈在信里抱怨过：颜色在他眼里越来越“脏”，他常常在调色时加大颜料的分量，画面于是变得松散、浓烈。';
+
+    button.addEventListener('click', () => {
+      cataract = !cataract;
+      stage.classList.toggle('is-cataract', cataract);
+      button.setAttribute('aria-pressed', String(cataract));
+      button.textContent = cataract ? '回到正常视力' : '切换到白内障视角';
+      label.textContent = cataract ? '白内障（示意）' : '正常视力';
+      caption.textContent = cataract ? cataractText : normalText;
+    });
+  });
+</script>
+
+<style>
+  .vision {
+    margin: 2rem 0 2.4rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+    overflow: hidden;
+  }
+
+  .vt-stage {
+    position: relative;
+    aspect-ratio: 600 / 340;
+    overflow: hidden;
+  }
+
+  .vt-stage svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transition: filter 0.7s ease;
+  }
+
+  .vt-stage.is-cataract svg {
+    filter: blur(1.7px) saturate(1.45) sepia(0.5) hue-rotate(-12deg) contrast(0.88)
+      brightness(1.07);
+  }
+
+  .vt-warm {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      circle at 50% 45%,
+      rgba(255, 236, 196, 0.35),
+      rgba(190, 150, 80, 0.42) 70%,
+      rgba(120, 90, 40, 0.4)
+    );
+    opacity: 0;
+    transition: opacity 0.7s ease;
+    mix-blend-mode: multiply;
+  }
+
+  .vt-stage.is-cataract .vt-warm {
+    opacity: 1;
+  }
+
+  .vt-label {
+    position: absolute;
+    left: 0.9rem;
+    top: 0.8rem;
+    padding: 0.18rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.62);
+    color: rgba(40, 50, 46, 0.7);
+    font-size: 0.72rem;
+    backdrop-filter: blur(6px);
+  }
+
+  .vt-bar {
+    display: grid;
+    gap: 0.7rem;
+    padding: 1rem 1.2rem 1.15rem;
+  }
+
+  .vt-toggle {
+    justify-self: start;
+    padding: 0.45rem 1rem;
+    border: 1px solid var(--accent-line);
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 0.82rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+
+  .vt-toggle:hover {
+    background: var(--accent);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+
+  .vt-toggle:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  .vt-caption {
+    margin: 0;
+    min-height: 4.4em;
+    color: var(--text-soft);
+    font-size: 0.86rem;
+    line-height: 1.75;
+  }
+
+  @media (max-width: 560px) {
+    .vt-caption {
+      min-height: 6.6em;
+    }
+  }
+</style>

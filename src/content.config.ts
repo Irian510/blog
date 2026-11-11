@@ -18,11 +18,11 @@ const dateSchema = z
 
 const posts = defineCollection({
   loader: glob({
-    pattern: '**/index.md',
+    pattern: '**/index.{md,mdx}',
     base: './src/content/posts',
     generateId: ({ entry }) => {
       // hello-world/index.md -> hello-world
-      return entry.replace(/\/index\.md$/, '').replace(/\\index\.md$/, '');
+      return entry.replace(/\/index\.(md|mdx)$/, '').replace(/\\index\.(md|mdx)$/, '');
     },
     deferRender: true,
   }),

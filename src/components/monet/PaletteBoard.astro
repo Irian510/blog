@@ -1,0 +1,224 @@
+---
+// 互动二：点开色块，看这个颜色在莫奈的画里承担什么角色
+const swatches = [
+  {
+    name: '雾蓝',
+    color: '#8fa7b8',
+    title: '《印象·日出》里的港口',
+    note: '勒阿弗尔的清晨被画成一团模糊的蓝灰。莫奈没有先画轮廓再上色，他把颜色直接铺上去，让形状从色块里浮出来——这正是后来被嘲笑的“印象”。',
+  },
+  {
+    name: '干草金',
+    color: '#d3a355',
+    title: '《干草堆》系列',
+    note: '同一座草垛，他从夏末画到初冬。金色不是草的颜色，而是那一刻阳光落在草上的颜色。系列画真正的主题，是“光本身”。',
+  },
+  {
+    name: '阴影紫',
+    color: '#6d6f9c',
+    title: '雪景里的阴影',
+    note: '印象派几乎不用纯黑画阴影。雪地上的影子被画成蓝紫和灰紫——因为在露天的光里，阴影并不黑，它反射的是天空的颜色。',
+  },
+  {
+    name: '睡莲青',
+    color: '#7fa89b',
+    title: '吉维尼的池塘',
+    note: '池水同时映着天空、柳树和云。莫奈把水面当成第二块天空，绿色里混着粉和淡蓝，让“水”既透明又有重量。',
+  },
+  {
+    name: '教堂玫瑰',
+    color: '#c08c86',
+    title: '《鲁昂大教堂》系列',
+    note: '石头的颜色取决于天气。莫奈在同一角度画了三十多次，早晨是冷灰，傍晚是玫瑰与蜜色。建筑的实体感被光溶解了。',
+  },
+  {
+    name: '暮色橙',
+    color: '#d98544',
+    title: '《日出·印象》的那一轮',
+    note: '太阳只是一小块橙红，却让整片灰蓝活了起来。他后来说过大意如此的话：写实画的是物体，他想画的是物体周围的空气。',
+  },
+];
+---
+
+<div class="palette-board" data-palette-board>
+  <div class="pb-head">
+    <h3 class="pb-title">他的调色板</h3>
+    <p class="pb-hint">点一块颜色，看看它在他笔下做什么。</p>
+  </div>
+
+  <div class="pb-swatches" role="group" aria-label="莫奈常用的六种颜色">
+    {swatches.map((swatch, i) => (
+      <button
+        type="button"
+        class:list={['pb-swatch', { 'is-active': i === 0 }]}
+        style={`--swatch:${swatch.color}`}
+        data-name={swatch.name}
+        data-title={swatch.title}
+        data-note={swatch.note}
+        aria-pressed={i === 0 ? 'true' : 'false'}
+      >
+        <span class="pb-chip">{swatch.name}</span>
+      </button>
+    ))}
+  </div>
+
+  <div class="pb-note" data-note>
+    <p class="pb-note-title" data-note-title>{swatches[0].title}</p>
+    <p class="pb-note-text" data-note-text>{swatches[0].note}</p>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('[data-palette-board]').forEach((root) => {
+    const swatches = Array.from(root.querySelectorAll('.pb-swatch'));
+    const noteTitle = root.querySelector('[data-note-title]');
+    const noteText = root.querySelector('[data-note-text]');
+    const noteBox = root.querySelector('[data-note]');
+
+    swatches.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        swatches.forEach((other) => {
+          other.classList.remove('is-active');
+          other.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-pressed', 'true');
+
+        noteTitle.textContent = btn.dataset.title || '';
+        noteText.textContent = btn.dataset.note || '';
+        noteBox.style.setProperty('--accent-note', getComputedStyle(btn).getPropertyValue('--swatch'));
+        noteBox.classList.remove('is-flash');
+        void noteBox.offsetWidth;
+        noteBox.classList.add('is-flash');
+      });
+    });
+  });
+</script>
+
+<style>
+  .palette-board {
+    margin: 2rem 0 2.4rem;
+    padding: 1.15rem 1.25rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+  }
+
+  .pb-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.9rem;
+  }
+
+  .pb-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .pb-hint {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+
+  .pb-swatches {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.45rem;
+  }
+
+  .pb-swatch {
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+
+  .pb-chip {
+    display: flex;
+    align-items: flex-end;
+    height: 78px;
+    padding: 0.45rem 0.5rem;
+    border-radius: 12px;
+    background: var(--swatch);
+    color: rgba(255, 255, 255, 0.94);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .pb-swatch:hover .pb-chip {
+    transform: translateY(-3px);
+  }
+
+  .pb-swatch.is-active .pb-chip {
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--swatch);
+    transform: translateY(-3px);
+  }
+
+  .pb-swatch:focus-visible {
+    outline: none;
+  }
+
+  .pb-swatch:focus-visible .pb-chip {
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--ring);
+  }
+
+  .pb-note {
+    margin-top: 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: var(--radius-sm);
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent-note, var(--accent));
+    transition: border-color 0.25s ease;
+  }
+
+  .pb-note.is-flash {
+    animation: note-in 0.35s ease;
+  }
+
+  @keyframes note-in {
+    from {
+      opacity: 0.2;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .pb-note-title {
+    margin: 0 0 0.3rem;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .pb-note-text {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.75;
+    color: var(--text-soft);
+  }
+
+  @media (max-width: 620px) {
+    .pb-swatches {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .pb-chip {
+      height: 62px;
+      font-size: 0.68rem;
+    }
+  }
+</style>
