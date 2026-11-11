@@ -39,6 +39,8 @@
 
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
     'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
+  --font-serif: 'Songti SC', 'Noto Serif SC', 'Source Han Serif SC', 'STSong',
+    'SimSun', Georgia, 'Times New Roman', serif;
   --font-mono: ui-monospace, SFMono-Regular, 'Cascadia Code', 'JetBrains Mono',
     Menlo, Consolas, monospace;
 }
@@ -460,10 +462,11 @@ html[data-theme='dark'] .theme-toggle .icon-moon {
 
 .hero-name {
   margin: 0;
+  font-family: var(--font-serif);
   font-size: clamp(1.9rem, 5vw, 2.4rem);
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.035em;
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: 0.01em;
   background: linear-gradient(115deg, var(--text) 30%, var(--accent) 75%, var(--accent-2));
   -webkit-background-clip: text;
   background-clip: text;
@@ -474,8 +477,10 @@ html[data-theme='dark'] .theme-toggle .icon-moon {
 
 .hero-tagline {
   margin: 0.55rem 0 0;
+  font-family: var(--font-serif);
   color: var(--muted);
-  font-size: 0.97rem;
+  font-size: 1.02rem;
+  font-style: italic;
 }
 
 .hero-links {
@@ -654,10 +659,11 @@ html[data-theme='dark'] .theme-toggle .icon-moon {
 
 .page-title {
   margin: 0;
+  font-family: var(--font-serif);
   font-size: clamp(1.7rem, 4vw, 2.1rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
 }
 
 .page-sub {
@@ -675,10 +681,11 @@ html[data-theme='dark'] .theme-toggle .icon-moon {
 
 .post-title {
   margin: 0 0 0.9rem;
-  font-size: clamp(1.65rem, 4.2vw, 2.15rem);
-  font-weight: 800;
-  line-height: 1.28;
-  letter-spacing: -0.028em;
+  font-family: var(--font-serif);
+  font-size: clamp(1.7rem, 4.4vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.32;
+  letter-spacing: 0.01em;
 }
 
 .post-meta {
@@ -703,8 +710,9 @@ html[data-theme='dark'] .theme-toggle .icon-moon {
 /* ---------- 正文排版 ---------- */
 .prose {
   color: var(--text-soft);
-  font-size: 1.02rem;
-  line-height: 1.85;
+  font-family: var(--font-serif);
+  font-size: 1.04rem;
+  line-height: 1.9;
 }
 
 .prose > :first-child {
@@ -716,22 +724,22 @@ html[data-theme='dark'] .theme-toggle .icon-moon {
 }
 
 .prose h2 {
-  margin: 2.5rem 0 0.9rem;
+  margin: 2.6rem 0 0.95rem;
   padding-left: 0.75rem;
   border-left: 3px solid var(--accent);
   color: var(--text);
-  font-size: 1.42rem;
-  font-weight: 700;
-  line-height: 1.35;
-  letter-spacing: -0.02em;
+  font-size: 1.48rem;
+  font-weight: 650;
+  line-height: 1.4;
+  letter-spacing: 0.015em;
 }
 
 .prose h3 {
-  margin: 1.9rem 0 0.7rem;
+  margin: 2rem 0 0.7rem;
   color: var(--text);
-  font-size: 1.13rem;
-  font-weight: 650;
-  letter-spacing: -0.012em;
+  font-size: 1.16rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 .prose h4 {
@@ -1082,7 +1090,9 @@ html[data-theme='dark'] .astro-code span {
 .prose .monet-duo figcaption {
   margin-top: 0.6rem;
   color: var(--muted);
-  font-size: 0.78rem;
+  font-family: var(--font-serif);
+  font-size: 0.8rem;
+  font-style: italic;
   text-align: center;
   letter-spacing: 0.01em;
 }
