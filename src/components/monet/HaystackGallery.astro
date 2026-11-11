@@ -1,0 +1,372 @@
+---
+import { Image } from 'astro:assets';
+import mist from '../../assets/monet/haystack-mist.jpg';
+import summer from '../../assets/monet/haystack-summer.jpg';
+import giverny from '../../assets/monet/haystack-giverny.jpg';
+import snowSun from '../../assets/monet/haystack-snow-sun.jpg';
+import snow from '../../assets/monet/haystack-snow.jpg';
+import early from '../../assets/monet/haystack-1885.jpg';
+
+// 六幅真迹，按光的状态排列
+const works = [
+  {
+    src: mist,
+    mood: '雾',
+    title: '干草堆：雾中的阳光',
+    year: '1891',
+    note: '雾把轮廓泡软，光找不到明确的方向。整幅画靠冷暖关系撑住，草垛几乎要从背景里化开。',
+  },
+  {
+    src: summer,
+    mood: '夏末',
+    title: '干草堆：夏末',
+    year: '1891',
+    note: '夏末的斜阳把草垛晒暖，橙色从暗部里透出来。同一座草垛，颜色已经和清晨完全无关。',
+  },
+  {
+    src: giverny,
+    mood: '吉维尼',
+    title: '吉维尼的干草堆',
+    year: '1893',
+    note: '换一个视点、换一个时刻，构图和色彩关系几乎全部重写。系列不是复制，是对同一道题反复求解。',
+  },
+  {
+    src: snowSun,
+    mood: '雪后',
+    title: '干草堆：雪与阳光的效果',
+    year: '1891',
+    note: '雪地像一块天然反光板，把天空的蓝紫反射进阴影。这里的暗部没有一笔是黑色。',
+  },
+  {
+    src: snow,
+    mood: '雪',
+    title: '干草堆：雪景',
+    year: '1891',
+    note: '阴天的雪几乎没有影子。他画的是“没有光”的光——靠灰蓝、灰绿和一点点粉把它撑起来。',
+  },
+  {
+    src: early,
+    mood: '早期',
+    title: '干草堆',
+    year: '1885',
+    note: '更早的版本。那时草垛还只是一个题材，还没有变成一场持续数年的实验。',
+  },
+];
+---
+
+<div class="hg" data-gallery>
+  <div class="hg-stage">
+    {works.map((work, i) => (
+      <div class:list={['hg-slide', { 'is-active': i === 0 }]} data-slide>
+        <Image
+          src={work.src}
+          alt={`克劳德·莫奈《${work.title}》，${work.year} 年`}
+          widths={[640, 1000]}
+          sizes="(max-width: 720px) 92vw, 720px"
+          loading={i === 0 ? 'eager' : 'lazy'}
+        />
+      </div>
+    ))}
+
+    <button type="button" class="hg-nav hg-prev" data-prev aria-label="上一幅">←</button>
+    <button type="button" class="hg-nav hg-next" data-next aria-label="下一幅">→</button>
+    <span class="hg-count"><b data-index>1</b> / {works.length}</span>
+  </div>
+
+  <div class="hg-thumbs" role="group" aria-label="选择画作">
+    {works.map((work, i) => (
+      <button
+        type="button"
+        class:list={['hg-thumb', { 'is-active': i === 0 }]}
+        data-thumb={i}
+        aria-label={`${work.title}，${work.year}`}
+        aria-pressed={i === 0 ? 'true' : 'false'}
+      >
+        <Image src={work.src} alt="" width={150} height={110} />
+      </button>
+    ))}
+  </div>
+
+  <div class="hg-caption">
+    <div class="hg-caption-head">
+      <span class="hg-mood" data-mood>{works[0].mood}</span>
+      <span class="hg-credit">克劳德·莫奈 · 公有领域</span>
+    </div>
+    <p class="hg-title" data-title aria-live="polite">{works[0].title}</p>
+    <p class="hg-meta" data-meta>{works[0].year} 年，油画</p>
+    <p class="hg-note" data-note>{works[0].note}</p>
+  </div>
+</div>
+
+<script>
+  const works = [
+    { mood: '雾', title: '干草堆：雾中的阳光', year: '1891', note: '雾把轮廓泡软，光找不到明确的方向。整幅画靠冷暖关系撑住，草垛几乎要从背景里化开。' },
+    { mood: '夏末', title: '干草堆：夏末', year: '1891', note: '夏末的斜阳把草垛晒暖，橙色从暗部里透出来。同一座草垛，颜色已经和清晨完全无关。' },
+    { mood: '吉维尼', title: '吉维尼的干草堆', year: '1893', note: '换一个视点、换一个时刻，构图和色彩关系几乎全部重写。系列不是复制，是对同一道题反复求解。' },
+    { mood: '雪后', title: '干草堆：雪与阳光的效果', year: '1891', note: '雪地像一块天然反光板，把天空的蓝紫反射进阴影。这里的暗部没有一笔是黑色。' },
+    { mood: '雪', title: '干草堆：雪景', year: '1891', note: '阴天的雪几乎没有影子。他画的是“没有光”的光——靠灰蓝、灰绿和一点点粉把它撑起来。' },
+    { mood: '早期', title: '干草堆', year: '1885', note: '更早的版本。那时草垛还只是一个题材，还没有变成一场持续数年的实验。' },
+  ];
+
+  document.querySelectorAll('[data-gallery]').forEach((root) => {
+    const slides = Array.from(root.querySelectorAll('[data-slide]'));
+    const thumbs = Array.from(root.querySelectorAll('[data-thumb]'));
+    const indexEl = root.querySelector('[data-index]');
+    const moodEl = root.querySelector('[data-mood]');
+    const titleEl = root.querySelector('[data-title]');
+    const metaEl = root.querySelector('[data-meta]');
+    const noteEl = root.querySelector('[data-note]');
+    let current = 0;
+
+    const show = (index) => {
+      current = (index + works.length) % works.length;
+      slides.forEach((slide, i) => slide.classList.toggle('is-active', i === current));
+      thumbs.forEach((thumb, i) => {
+        thumb.classList.toggle('is-active', i === current);
+        thumb.setAttribute('aria-pressed', String(i === current));
+      });
+
+      const work = works[current];
+      indexEl.textContent = String(current + 1);
+      moodEl.textContent = work.mood;
+      titleEl.textContent = work.title;
+      metaEl.textContent = `${work.year} 年，油画`;
+      noteEl.textContent = work.note;
+    };
+
+    root.querySelector('[data-prev]').addEventListener('click', () => show(current - 1));
+    root.querySelector('[data-next]').addEventListener('click', () => show(current + 1));
+    thumbs.forEach((thumb, i) => thumb.addEventListener('click', () => show(i)));
+
+    root.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') show(current - 1);
+      if (event.key === 'ArrowRight') show(current + 1);
+    });
+  });
+</script>
+
+<style>
+  .hg {
+    margin: 2.2rem 0 2.6rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+    overflow: hidden;
+  }
+
+  .hg-stage {
+    position: relative;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: #efe9dc;
+    padding: 14px;
+  }
+
+  .hg-slide {
+    position: absolute;
+    inset: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(1.015);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    pointer-events: none;
+  }
+
+  .hg-slide.is-active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+
+  .hg-slide :global(img) {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    box-shadow: 0 8px 22px -10px rgba(40, 30, 10, 0.5);
+  }
+
+  .hg-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    background: rgba(20, 20, 20, 0.28);
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    backdrop-filter: blur(4px);
+  }
+
+  .hg-stage:hover .hg-nav,
+  .hg-nav:focus-visible {
+    opacity: 1;
+  }
+
+  .hg-nav:hover {
+    background: rgba(20, 20, 20, 0.5);
+  }
+
+  .hg-prev {
+    left: 22px;
+  }
+
+  .hg-next {
+    right: 22px;
+  }
+
+  .hg-count {
+    position: absolute;
+    right: 22px;
+    bottom: 20px;
+    padding: 0.14rem 0.55rem;
+    border-radius: 999px;
+    background: rgba(20, 20, 20, 0.32);
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.72rem;
+    font-variant-numeric: tabular-nums;
+    backdrop-filter: blur(4px);
+  }
+
+  .hg-thumbs {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.4rem;
+    padding: 0.75rem 0.85rem 0;
+  }
+
+  .hg-thumb {
+    position: relative;
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    background: none;
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0.62;
+    transition: opacity 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .hg-thumb :global(img) {
+    display: block;
+    width: 100%;
+    height: 58px;
+    object-fit: cover;
+  }
+
+  .hg-thumb:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+
+  .hg-thumb.is-active {
+    opacity: 1;
+    border-color: var(--accent);
+  }
+
+  .hg-thumb:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  .hg-caption {
+    padding: 0.85rem 1.2rem 1.15rem;
+  }
+
+  .hg-caption-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .hg-mood {
+    padding: 0.1rem 0.55rem;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 0.73rem;
+    letter-spacing: 0.02em;
+  }
+
+  .hg-credit {
+    color: var(--muted);
+    font-size: 0.7rem;
+    letter-spacing: 0.01em;
+  }
+
+  .hg-title {
+    margin: 0.15rem 0 0;
+    font-family: Georgia, 'Songti SC', 'Noto Serif SC', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.01em;
+  }
+
+  .hg-meta {
+    margin: 0.1rem 0 0.5rem;
+    color: var(--muted);
+    font-size: 0.76rem;
+  }
+
+  .hg-note {
+    margin: 0;
+    min-height: 3.4em;
+    color: var(--text-soft);
+    font-size: 0.87rem;
+    line-height: 1.72;
+  }
+
+  @media (max-width: 620px) {
+    .hg-stage {
+      padding: 10px;
+      aspect-ratio: 4 / 3;
+    }
+
+    .hg-slide {
+      inset: 10px;
+    }
+
+    .hg-nav {
+      opacity: 1;
+      width: 32px;
+      height: 32px;
+    }
+
+    .hg-prev {
+      left: 14px;
+    }
+
+    .hg-next {
+      right: 14px;
+    }
+
+    .hg-thumbs {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .hg-thumb :global(img) {
+      height: 56px;
+    }
+
+    .hg-note {
+      min-height: 5.2em;
+    }
+  }
+</style>

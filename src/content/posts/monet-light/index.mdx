@@ -6,10 +6,14 @@ tags: [艺术, 莫奈, 视觉]
 draft: false
 ---
 
-import LightClock from '../../../components/monet/LightClock.astro';
+import { Image } from 'astro:assets';
+import HaystackGallery from '../../../components/monet/HaystackGallery.astro';
 import PaletteBoard from '../../../components/monet/PaletteBoard.astro';
 import VisionToggle from '../../../components/monet/VisionToggle.astro';
 import MonetQuiz from '../../../components/monet/MonetQuiz.astro';
+import rouenMorning from '../../../assets/monet/rouen-morning.jpg';
+import rouenSun from '../../../assets/monet/rouen-sun.jpg';
+import bridge from '../../../assets/monet/japanese-bridge.jpg';
 
 1890 年秋天，莫奈在吉维尼附近的田野里同时支起十几块画布。光一变，他就换一块接着画。
 
@@ -41,13 +45,30 @@ import MonetQuiz from '../../../components/monet/MonetQuiz.astro';
 
 结论是：**会让对象消失**。
 
-拖一下下面这条时间轴。同一座草堆、同一片田野，从清晨到夜里，颜色换了一整套。到日落时分，你几乎认不出草堆的形状，只剩一个暗色剪影。
+下面这六幅都是莫奈的真迹，画的是同一带田野里的干草堆。点开看：雾、夏末、吉维尼、雪后、雪天，最后是 1885 年更早的版本。
 
-<LightClock />
+六幅画之间，构图、笔触和颜色关系全都被重写过一遍。它们不是同一张画加的不同滤镜。
+
+<HaystackGallery />
 
 单幅画是一个句子，系列才是文章。莫奈真正的作品不是某一张《干草堆》，而是把它们并排挂起来之后，你脑子里产生的那条时间线。
 
 > 看系列画最好的方式不是逐张欣赏，而是站在中间，用余光同时看三四张。你会先注意到颜色的差异，然后才想起它们画的是同一个东西。
+
+同样的实验，他后来搬到鲁昂大教堂门口又做了一遍。下面两幅画的是同一面石墙，相隔的只是几小时的晨光：
+
+<figure class="monet-duo">
+  <figure>
+    <Image src={rouenMorning} alt="克劳德·莫奈《鲁昂大教堂：晨光中的门廊》，1894 年" widths={[360, 640]} sizes="(max-width: 560px) 90vw, 350px" loading="lazy" />
+    <figcaption>《鲁昂大教堂：晨光中的门廊》，1894</figcaption>
+  </figure>
+  <figure>
+    <Image src={rouenSun} alt="克劳德·莫奈《鲁昂大教堂：西立面，阳光》，1894 年" widths={[360, 640]} sizes="(max-width: 560px) 90vw, 350px" loading="lazy" />
+    <figcaption>《鲁昂大教堂：西立面，阳光》，1894</figcaption>
+  </figure>
+</figure>
+
+石头本身没有变。变的只是照在它上面的光——以及莫奈站在它面前的那几个小时。
 
 ## 三、阴影不是黑色
 
@@ -78,6 +99,11 @@ import MonetQuiz from '../../../components/monet/MonetQuiz.astro';
 ## 五、花园：自己造一个题材
 
 1883 年，莫奈搬到吉维尼。十年后，他买下铁路另一侧的一块湿地，挖成池塘，种睡莲，架起那座后来反复出现的绿色日本桥。
+
+<figure class="monet-figure">
+  <Image src={bridge} alt="克劳德·莫奈《睡莲池上的日本桥》，1899 年" widths={[480, 820]} sizes="(max-width: 720px) 92vw, 720px" loading="lazy" />
+  <figcaption>《睡莲池上的日本桥》，1899</figcaption>
+</figure>
 
 他还收藏了两百多幅日本浮世绘，北斋和广重都在其中。桥的弧线、水面的截取方式、对「局部」的偏爱，都能在那些版画里找到回声。
 
@@ -113,4 +139,4 @@ import MonetQuiz from '../../../components/monet/MonetQuiz.astro';
 
 ---
 
-*文中所有动态画面均由 CSS 与 SVG 生成，是对莫奈观察方式的模拟，并非原作复制。*
+*文中画作均为公有领域作品（莫奈于 1926 年去世），图像经 Artvee 与克利夫兰艺术博物馆开放数据获取，仅用于学习与评论。*

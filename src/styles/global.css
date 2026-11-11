@@ -1063,6 +1063,46 @@ html[data-theme='dark'] .astro-code span {
   }
 }
 
+/* ---------- 文章插图 ---------- */
+.prose .monet-figure,
+.prose .monet-duo {
+  margin: 1.9rem 0;
+}
+
+.prose .monet-figure img,
+.prose .monet-duo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 12px 30px -16px rgba(40, 30, 10, 0.55);
+}
+
+.prose .monet-figure figcaption,
+.prose .monet-duo figcaption {
+  margin-top: 0.6rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+.prose .monet-duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+}
+
+.prose .monet-duo figure {
+  margin: 0;
+}
+
+@media (max-width: 560px) {
+  .prose .monet-duo {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ---------- 页脚 ---------- */
 .footer {
   border-top: 1px solid var(--border);

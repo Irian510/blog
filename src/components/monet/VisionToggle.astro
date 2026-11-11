@@ -1,78 +1,29 @@
 ---
 // 互动三：切换“白内障视角”，理解莫奈晚年为什么越画越蓝、越画越散
+import { Image } from 'astro:assets';
+import lilies from '../../assets/monet/waterlilies-1916.jpg';
 ---
 
 <div class="vision" data-vision>
-  <div class="vt-held">
-    <div class="vt-stage" data-stage>
-      <svg viewBox="0 0 600 340" role="img" aria-label="睡莲池塘的抽象示意">
-        <defs>
-          <linearGradient id="vtSky" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#e6ece7" />
-            <stop offset="100%" stop-color="#cfded8" />
-          </linearGradient>
-          <linearGradient id="vtWater" x1="0" y1="0" x2="0.4" y2="1">
-            <stop offset="0%" stop-color="#9dbdb1" />
-            <stop offset="45%" stop-color="#7ea398" />
-            <stop offset="100%" stop-color="#4f6f77" />
-          </linearGradient>
-          <linearGradient id="vtPad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#9fbf8c" />
-            <stop offset="100%" stop-color="#5f8a6a" />
-          </linearGradient>
-          <linearGradient id="vtBloom" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#f7e6ea" />
-            <stop offset="100%" stop-color="#d99bb0" />
-          </linearGradient>
-          <filter id="vtSoft" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="3" />
-          </filter>
-        </defs>
-
-        <rect width="600" height="150" fill="url(#vtSky)" />
-        <ellipse cx="90" cy="40" rx="120" ry="46" fill="#b9cdb9" opacity="0.55" filter="url(#vtSoft)" />
-        <ellipse cx="470" cy="26" rx="140" ry="40" fill="#cbd9c6" opacity="0.5" filter="url(#vtSoft)" />
-        <rect y="146" width="600" height="194" fill="url(#vtWater)" />
-
-        <g opacity="0.35" filter="url(#vtSoft)">
-          <ellipse cx="300" cy="170" rx="210" ry="9" fill="#dce8df" />
-          <ellipse cx="210" cy="196" rx="150" ry="7" fill="#cfe0d6" />
-          <ellipse cx="420" cy="222" rx="180" ry="8" fill="#b9d0c6" />
-        </g>
-
-        <g>
-          <ellipse cx="150" cy="205" rx="62" ry="24" fill="url(#vtPad)" opacity="0.95" />
-          <ellipse cx="248" cy="255" rx="76" ry="28" fill="url(#vtPad)" opacity="0.9" />
-          <ellipse cx="120" cy="278" rx="58" ry="22" fill="url(#vtPad)" opacity="0.85" />
-          <ellipse cx="420" cy="196" rx="70" ry="26" fill="url(#vtPad)" opacity="0.92" />
-          <ellipse cx="500" cy="262" rx="64" ry="24" fill="url(#vtPad)" opacity="0.88" />
-          <ellipse cx="330" cy="300" rx="88" ry="26" fill="url(#vtPad)" opacity="0.8" />
-        </g>
-
-        <g fill="url(#vtBloom)">
-          <circle cx="200" cy="196" r="9" />
-          <circle cx="214" cy="204" r="6" opacity="0.85" />
-          <circle cx="452" cy="188" r="8" />
-          <circle cx="464" cy="197" r="5" opacity="0.8" />
-          <circle cx="290" cy="248" r="7" opacity="0.9" />
-          <circle cx="362" cy="292" r="6" opacity="0.75" />
-        </g>
-
-        <g stroke="#3f5f66" stroke-width="2" opacity="0.28" fill="none">
-          <path d="M0 168 Q 150 158 300 166 T 600 160" />
-          <path d="M0 236 Q 180 226 340 234 T 600 228" />
-          <path d="M0 292 Q 160 284 330 290 T 600 284" />
-        </g>
-      </svg>
-      <span class="vt-warm" aria-hidden="true"></span>
-      <span class="vt-label" data-label>正常视力</span>
-    </div>
+  <div class="vt-stage" data-stage>
+    <Image
+      src={lilies}
+      alt="克劳德·莫奈《睡莲》，1916–1919 年"
+      widths={[640, 1100]}
+      sizes="(max-width: 720px) 92vw, 740px"
+      loading="lazy"
+    />
+    <span class="vt-warm" aria-hidden="true"></span>
+    <span class="vt-label" data-label>正常视力</span>
   </div>
 
   <div class="vt-bar">
-    <button type="button" class="vt-toggle" data-toggle aria-pressed="false">
-      切换到白内障视角
-    </button>
+    <div class="vt-head">
+      <button type="button" class="vt-toggle" data-toggle aria-pressed="false">
+        切换到白内障视角
+      </button>
+      <span class="vt-credit">原画：莫奈《睡莲》1916–1919 · 公有领域</span>
+    </div>
     <p class="vt-caption" data-caption aria-live="polite">
       1923 年接受手术后，莫奈的晶状体被摘除，紫外线大量进入眼睛，他看到的蓝色与紫色比常人更浓——这可能是晚年《睡莲》越来越偏蓝紫的原因之一。
     </p>
@@ -117,18 +68,20 @@
 
   .vt-stage {
     position: relative;
-    aspect-ratio: 600 / 340;
+    aspect-ratio: 3 / 2;
     overflow: hidden;
+    background: #0f1a1c;
   }
 
-  .vt-stage svg {
+  .vt-stage :global(img) {
     display: block;
     width: 100%;
     height: 100%;
+    object-fit: cover;
     transition: filter 0.7s ease;
   }
 
-  .vt-stage.is-cataract svg {
+  .vt-stage.is-cataract :global(img) {
     filter: blur(1.7px) saturate(1.45) sepia(0.5) hue-rotate(-12deg) contrast(0.88)
       brightness(1.07);
   }
@@ -158,8 +111,8 @@
     top: 0.8rem;
     padding: 0.18rem 0.6rem;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.62);
-    color: rgba(40, 50, 46, 0.7);
+    background: rgba(255, 255, 255, 0.72);
+    color: rgba(40, 50, 46, 0.72);
     font-size: 0.72rem;
     backdrop-filter: blur(6px);
   }
@@ -170,8 +123,14 @@
     padding: 1rem 1.2rem 1.15rem;
   }
 
+  .vt-head {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+  }
+
   .vt-toggle {
-    justify-self: start;
     padding: 0.45rem 1rem;
     border: 1px solid var(--accent-line);
     border-radius: 999px;
@@ -192,6 +151,11 @@
   .vt-toggle:focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
+  }
+
+  .vt-credit {
+    color: var(--muted);
+    font-size: 0.72rem;
   }
 
   .vt-caption {
