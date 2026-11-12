@@ -22,15 +22,14 @@ const sources = [
     title="keshi《magnolia》"
   >
     <span class="bgm-icon" aria-hidden="true">
-      <svg class="bgm-note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9 18V6l10-2v12" />
-        <circle cx="6.5" cy="18" r="2.5" />
-        <circle cx="16.5" cy="16" r="2.5" />
+      <svg class="bgm-note" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M8 5.4v13.2a1 1 0 0 0 1.53.85l10.2-6.6a1 1 0 0 0 0-1.7L9.53 4.55A1 1 0 0 0 8 5.4z" />
       </svg>
       <span class="bgm-bars"><i></i><i></i><i></i></span>
     </span>
     <span class="bgm-text">magnolia</span>
     <span class="bgm-hint">点击开启</span>
+    <span class="bgm-error">加载失败，点此重试</span>
   </button>
 </div>
 
@@ -160,6 +159,21 @@ const sources = [
     border-color: var(--accent-line);
   }
 
+  .bgm-error {
+    display: none;
+    color: var(--accent-2);
+    font-size: 0.8rem;
+  }
+
+  .bgm.is-error .bgm-text,
+  .bgm.is-error .bgm-hint {
+    display: none;
+  }
+
+  .bgm.is-error .bgm-error {
+    display: inline;
+  }
+
   @keyframes bgm-bar {
     0%,
     100% {
@@ -238,14 +252,15 @@ const sources = [
         await audio.play();
         if (id !== attempt) return true;
         setPlaying(true);
-        root.classList.remove('is-blocked');
+        root.classList.remove('is-blocked', 'is-error');
         root.classList.add('is-ready');
         return true;
       } catch (err) {
         if (id !== attempt) return false;
-        // 音源全部加载失败：直接隐藏播放器
+        // 音源加载失败：保留按钮，提示可重试
         if (err instanceof DOMException && err.name === 'NotSupportedError') {
-          root.remove();
+          setPlaying(false);
+          root.classList.add('is-ready', 'is-error');
           return false;
         }
         setPlaying(false);
@@ -288,6 +303,10 @@ const sources = [
         try {
           localStorage.setItem(PAUSE_KEY, '0');
         } catch {}
+        if (root.classList.contains('is-error')) {
+          root.classList.remove('is-error');
+          audio.load();
+        }
         play();
       } else {
         userPaused = true;
@@ -312,9 +331,11 @@ const sources = [
       if (!audio.paused) saveTime();
     }, 3000);
 
-    // 所有音源都失败就隐藏
+    // 音源加载失败时保留按钮，点击可重试
     const lastSource = audio.querySelector('source:last-of-type');
-    lastSource?.addEventListener('error', () => root.remove());
+    lastSource?.addEventListener('error', () => {
+      root.classList.add('is-ready', 'is-error');
+    });
 
     root.classList.add('is-ready');
     if (userPaused) {
