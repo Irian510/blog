@@ -2,6 +2,7 @@
 import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR, GITHUB_USER } from '../consts';
 import { withBase } from '../lib/url';
 import Nav from '../components/Nav.astro';
+import MusicPlayer from '../components/MusicPlayer.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -74,5 +75,7 @@ const pageDesc = description || SITE_DESCRIPTION;
         </span>
       </div>
     </footer>
+
+    <MusicPlayer />
   </body>
 </html>
