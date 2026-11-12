@@ -41,12 +41,18 @@ function isActive(href: string): boolean {
 </nav>
 
 <script>
-  document.querySelector('.theme-toggle')?.addEventListener('click', () => {
-    const html = document.documentElement;
-    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    try {
-      localStorage.setItem('theme', next);
-    } catch {}
-  });
+  // 事件委托：客户端路由切换后导航会被替换，绑在 document 上才不会失效
+  if (!document.documentElement.dataset.themeBound) {
+    document.documentElement.dataset.themeBound = '1';
+    document.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof Element) || !target.closest('.theme-toggle')) return;
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      try {
+        localStorage.setItem('theme', next);
+      } catch {}
+    });
+  }
 </script>

@@ -8,7 +8,7 @@ const sources = [
 ] as const;
 ---
 
-<div class="bgm" id="bgm" data-playing="false">
+<div class="bgm" id="bgm" data-playing="false" transition:persist>
   <audio id="bgm-audio" loop preload="none" playsinline>
     {sources.map((s) => <source src={s.src} type={s.type} />)}
   </audio>
@@ -209,7 +209,8 @@ const sources = [
   const audio = document.getElementById('bgm-audio');
   const btn = document.getElementById('bgm-btn');
 
-  if (root && audio && btn) {
+  if (root && audio && btn && !root.dataset.init) {
+    root.dataset.init = '1';
     const PAUSE_KEY = 'bgm-paused';
     const TIME_KEY = 'bgm-time';
     const VOLUME = 0.32;

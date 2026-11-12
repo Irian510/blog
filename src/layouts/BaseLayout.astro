@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR, GITHUB_USER } from '../consts';
 import { withBase } from '../lib/url';
 import Nav from '../components/Nav.astro';
@@ -31,6 +32,8 @@ const pageDesc = description || SITE_DESCRIPTION;
     <meta property="og:url" content={Astro.url.toString()} />
     <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
     <link rel="alternate" type="application/rss+xml" title={`${SITE_TITLE} RSS`} href={withBase('/rss.xml')} />
+    <!-- 客户端路由：切页不重新加载，背景音乐不会中断 -->
+    <ClientRouter />
     <!-- 暗色首屏同步脚本，防闪白 -->
     <script is:inline>
       (function () {
