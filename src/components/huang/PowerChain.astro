@@ -1,0 +1,273 @@
+---
+// 互动四：权力链路图——从中期选举到黄仁勋下台，环环相扣
+const chain = [
+  {
+    id: 'election',
+    title: '中期选举',
+    icon: '🗳️',
+    body: '民主党横扫参众两院，结束共和党一党执政。新上任者多位承诺收紧 AI 芯片出口、暂停数据中心建设。',
+  },
+  {
+    id: 'policy',
+    title: '政策转向',
+    icon: '🛡️',
+    body: '民主党历来主张对华芯片管制。选举胜利后，对先进算力出口的限制只会更严，不会更松。',
+  },
+  {
+    id: 'nvda',
+    title: '英伟达承压',
+    icon: '⚡',
+    body: '英伟达的中国业务是其增长引擎之一。出口管制一旦收紧，估值逻辑直接被改写。',
+  },
+  {
+    id: 'trust',
+    title: '信任赤字',
+    icon: '🔍',
+    body: '10 月底《纽约时报》披露情报机构对“黄仁勋身边人”的怀疑。他丢掉的不是婚姻，是华盛顿的信任。',
+  },
+  {
+    id: 'resign',
+    title: '闪辞',
+    icon: '🚪',
+    body: '用一个可承受的“道德过错”盖掉更致命的“国家安全”指控——11 月 12 日，黄仁勋下台。',
+  },
+];
+---
+
+<div class="pc" data-chain>
+  <div class="pc-nodes">
+    {chain.map((node, i) => (
+      <div class="pc-node" data-node={node.id} style={`--i: ${i}`}>
+        <button type="button" class="pc-circle" aria-label={node.title}>
+          <span>{node.icon}</span>
+        </button>
+        <div class="pc-node-title">{node.title}</div>
+        {i < chain.length - 1 && <div class="pc-arrow" aria-hidden="true">→</div>}
+      </div>
+    ))}
+  </div>
+
+  <div class="pc-panel" data-panel>
+    <p class="pc-placeholder">点击任一节点，看它在整条链路里的位置。</p>
+  </div>
+
+  <div class="pc-progress" aria-hidden="true">
+    <div class="pc-progress-fill" data-fill></div>
+  </div>
+</div>
+
+<script>
+  const chain = [
+    {
+      id: 'election',
+      title: '中期选举',
+      icon: '🗳️',
+      body: '民主党横扫参众两院，结束共和党一党执政。新上任者多位承诺收紧 AI 芯片出口、暂停数据中心建设。',
+    },
+    {
+      id: 'policy',
+      title: '政策转向',
+      icon: '🛡️',
+      body: '民主党历来主张对华芯片管制。选举胜利后，对先进算力出口的限制只会更严，不会更松。',
+    },
+    {
+      id: 'nvda',
+      title: '英伟达承压',
+      icon: '⚡',
+      body: '英伟达的中国业务是其增长引擎之一。出口管制一旦收紧，估值逻辑直接被改写。',
+    },
+    {
+      id: 'trust',
+      title: '信任赤字',
+      icon: '🔍',
+      body: '10 月底《纽约时报》披露情报机构对“黄仁勋身边人”的怀疑。他丢掉的不是婚姻，是华盛顿的信任。',
+    },
+    {
+      id: 'resign',
+      title: '闪辞',
+      icon: '🚪',
+      body: '用一个可承受的“道德过错”盖掉更致命的“国家安全”指控——11 月 12 日，黄仁勋下台。',
+    },
+  ];
+
+  document.querySelectorAll('[data-chain]').forEach((root) => {
+    const nodes = Array.from(root.querySelectorAll('[data-node]'));
+    const panel = root.querySelector('[data-panel]');
+    const fill = root.querySelector('[data-fill]');
+
+    const lightUp = (idx) => {
+      nodes.forEach((n, i) => {
+        n.classList.toggle('is-active', i <= idx);
+        n.classList.toggle('is-current', i === idx);
+      });
+      const ev = chain[idx];
+      panel.innerHTML = `
+        <div class="pc-card">
+          <span class="pc-card-icon">${ev.icon}</span>
+          <div>
+            <h4 class="pc-card-title">第 ${idx + 1} 环 · ${ev.title}</h4>
+            <p class="pc-card-body">${ev.body}</p>
+          </div>
+        </div>
+      `;
+      fill.style.width = `${((idx + 1) / chain.length) * 100}%`;
+    };
+
+    nodes.forEach((node, idx) => {
+      node.addEventListener('click', () => lightUp(idx));
+    });
+
+    // 默认点亮第一环
+    lightUp(0);
+  });
+</script>
+
+<style>
+  .pc {
+    margin: 2rem 0 2.4rem;
+    padding: 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+  }
+
+  .pc-nodes {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.3rem;
+    padding: 0.4rem 0 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  .pc-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    flex: 1;
+    min-width: 5rem;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .pc-circle {
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    border: 2px solid var(--border-strong);
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.45;
+  }
+
+  .pc-node.is-active .pc-circle {
+    opacity: 1;
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    transform: scale(1.05);
+  }
+
+  .pc-node.is-current .pc-circle {
+    box-shadow: 0 0 0 4px var(--accent-line);
+  }
+
+  .pc-node-title {
+    font-size: 0.76rem;
+    color: var(--muted);
+    text-align: center;
+    transition: color 0.3s ease;
+  }
+
+  .pc-node.is-active .pc-node-title {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .pc-arrow {
+    position: absolute;
+    top: 1.2rem;
+    right: -0.5rem;
+    font-size: 1rem;
+    color: var(--border-strong);
+    z-index: 1;
+  }
+
+  .pc-node:last-child .pc-arrow {
+    display: none;
+  }
+
+  .pc-panel {
+    min-height: 7rem;
+  }
+
+  .pc-placeholder {
+    margin: 0;
+    padding: 1rem 0;
+    color: var(--muted);
+    font-size: 0.86rem;
+    text-align: center;
+  }
+
+  .pc-card {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    padding: 0.9rem 1rem;
+    border-radius: var(--radius);
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    animation: htl-fade 0.3s ease;
+  }
+
+  .pc-card-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  .pc-card-title {
+    margin: 0 0 0.3rem;
+    font-size: 0.92rem;
+    color: var(--text);
+  }
+
+  .pc-card-body {
+    margin: 0;
+    color: var(--text-soft);
+    font-size: 0.85rem;
+    line-height: 1.75;
+  }
+
+  .pc-progress {
+    margin-top: 1rem;
+    height: 4px;
+    background: rgba(15, 31, 30, 0.08);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .pc-progress-fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    border-radius: 999px;
+    transition: width 0.5s ease;
+  }
+
+  @media (max-width: 560px) {
+    .pc-arrow {
+      display: none;
+    }
+    .pc-nodes {
+      gap: 0.5rem;
+    }
+  }
+</style>

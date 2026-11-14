@@ -1,0 +1,200 @@
+---
+// 互动二：同一件事，两种读法——切换“道德叙事”与“棋局叙事”
+const modes = {
+  moral: {
+    label: '道德叙事',
+    badge: '官方 · 媒体主流',
+    color: 'var(--accent-2)',
+    points: [
+      '黄仁勋在官网主动承认婚外情，这是私人道德问题。',
+      '随后被爆出与直接下属有私情，涉及职场权力不对等，升级为公司治理问题。',
+      '董事会启动独立调查，为保护公司声誉，黄仁勋引咎辞职。',
+      '结论：一个功成名就的男人犯了所有“成功男人都会犯的错”，但他必须为自己的行为负责。',
+    ],
+    footnote: '这是绝大多数主流财经媒体采用的叙事框架——把事件框定在“个人道德”和“公司治理”的范畴内。',
+  },
+  chess: {
+    label: '棋局叙事',
+    badge: '波士顿圆脸式解读',
+    color: 'var(--accent)',
+    points: [
+      '11 月 3 日中期选举，民主党横扫参众两院——这才是真正的分水岭。',
+      '民主党一直主张收紧先进 AI 芯片出口管制，多名新当选者还承诺暂停新建数据中心。',
+      '10 月 29 日《纽约时报》已披露美国情报机构对“黄仁勋身边人”的怀疑。',
+      '11 月 8 日黄仁勋主动承认婚外情——更像是用一个可承受的“道德过错”，去盖掉更致命的“国家安全”指控。',
+      '他丢掉的不是婚姻，是华盛顿的信任。英伟达 2500 亿美元的担保，签的是他个人的信用。',
+      '结论：这不是一桩桃色新闻，是中期选举后 AI 算力主导权的一次重新洗牌。',
+    ],
+    footnote: '把事件放回中期选举后的权力格局里看，时间线会自洽得多——出轨是果，政治洗牌才是因。',
+  },
+};
+---
+
+<div class="nar" data-nar>
+  <div class="nar-head">
+    <button type="button" class="nar-btn is-active" data-mode="moral" aria-pressed="true">
+      {modes.moral.label}
+    </button>
+    <button type="button" class="nar-btn" data-mode="chess" aria-pressed="false">
+      {modes.chess.label}
+    </button>
+    <span class="nar-badge" data-badge>{modes.moral.badge}</span>
+  </div>
+
+  <div class="nar-body" data-body>
+    <ul class="nar-list">
+      {modes.moral.points.map((p) => <li>{p}</li>)}
+    </ul>
+    <p class="nar-foot" data-foot>{modes.moral.footnote}</p>
+  </div>
+
+  <p class="nar-hint" data-hint>
+    上面两个按钮，说的是同一组事实。差别只在于：你把它框成「一个人的道德问题」，还是「一场权力的重新分配」。
+  </p>
+</div>
+
+<script>
+  const modes = {
+    moral: {
+      label: '道德叙事',
+      badge: '官方 · 媒体主流',
+      color: 'var(--accent-2)',
+      points: [
+        '黄仁勋在官网主动承认婚外情，这是私人道德问题。',
+        '随后被爆出与直接下属有私情，涉及职场权力不对等，升级为公司治理问题。',
+        '董事会启动独立调查，为保护公司声誉，黄仁勋引咎辞职。',
+        '结论：一个功成名就的男人犯了错，他必须为自己的行为负责。',
+      ],
+      footnote: '这是绝大多数主流财经媒体采用的叙事框架——把事件框定在“个人道德”和“公司治理”的范畴内。',
+    },
+    chess: {
+      label: '棋局叙事',
+      badge: '波士顿圆脸式解读',
+      color: 'var(--accent)',
+      points: [
+        '11 月 3 日中期选举，民主党横扫参众两院——这才是真正的分水岭。',
+        '民主党一直主张收紧先进 AI 芯片出口管制，多名新当选者还承诺暂停新建数据中心。',
+        '10 月 29 日《纽约时报》已披露美国情报机构对“黄仁勋身边人”的怀疑。',
+        '11 月 8 日黄仁勋主动承认婚外情——更像是用一个可承受的“道德过错”，去盖掉更致命的“国家安全”指控。',
+        '他丢掉的不是婚姻，是华盛顿的信任。英伟达 2500 亿美元的担保，签的是他个人的信用。',
+        '结论：这不是一桩桃色新闻，是中期选举后 AI 算力主导权的一次重新洗牌。',
+      ],
+      footnote: '把事件放回中期选举后的权力格局里看，时间线会自洽得多——出轨是果，政治洗牌才是因。',
+    },
+  };
+
+  document.querySelectorAll('[data-nar]').forEach((root) => {
+    const btns = Array.from(root.querySelectorAll('[data-mode]'));
+    const badge = root.querySelector('[data-badge]');
+    const body = root.querySelector('[data-body]');
+
+    const render = (key) => {
+      const m = modes[key];
+      body.style.setProperty('--c', m.color);
+      body.innerHTML =
+        `<ul class="nar-list">${m.points.map((p) => `<li>${p}</li>`).join('')}</ul>` +
+        `<p class="nar-foot">${m.footnote}</p>`;
+      badge.textContent = m.badge;
+    };
+
+    btns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        btns.forEach((b) => {
+          b.classList.remove('is-active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-pressed', 'true');
+        render(btn.dataset.mode);
+      });
+    });
+  });
+</script>
+
+<style>
+  .nar {
+    margin: 2rem 0 2.4rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+    overflow: hidden;
+  }
+
+  .nar-head {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1rem 1.2rem 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .nar-btn {
+    padding: 0.45rem 1.1rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-soft);
+    font-family: inherit;
+    font-size: 0.86rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .nar-btn.is-active {
+    border-color: var(--c, var(--accent));
+    background: var(--c, var(--accent));
+    color: #fff;
+  }
+
+  .nar-badge {
+    margin-left: auto;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .nar-body {
+    --c: var(--accent-2);
+    padding: 0.4rem 1.2rem 1rem;
+  }
+
+  .nar-list {
+    margin: 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .nar-list li {
+    color: var(--text-soft);
+    font-size: 0.9rem;
+    line-height: 1.75;
+  }
+
+  .nar-list li::marker {
+    color: var(--c);
+  }
+
+  .nar-foot {
+    margin: 0.9rem 0 0;
+    padding: 0.7rem 0.9rem;
+    border-left: 3px solid var(--c);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    background: var(--accent-soft);
+    color: var(--text-soft);
+    font-size: 0.82rem;
+    line-height: 1.7;
+  }
+
+  .nar-hint {
+    margin: 0;
+    padding: 0.7rem 1.2rem 1rem;
+    background: rgba(15, 31, 30, 0.03);
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.7;
+    border-top: 1px solid var(--border);
+  }
+</style>

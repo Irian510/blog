@@ -1,0 +1,309 @@
+---
+// 互动一：11 月 3 日到 14 日的事件时间轴，点击节点展开详情
+const events = [
+  {
+    date: '11 月 3 日',
+    tag: '中期选举',
+    title: '民主党横扫参众两院',
+    body: '民主党不仅夺回众议院，还拿下参议院，并深入得克萨斯、堪萨斯、艾奥瓦等传统红州。特朗普承认，与伊朗的军事冲突在很大程度上拖累了选情。共和党一党执政的格局结束。',
+    color: 'var(--accent)',
+  },
+  {
+    date: '11 月 8 日',
+    tag: '主动承认',
+    title: '黄仁勋官网承认婚外情',
+    body: '黄仁勋在英伟达官网发布声明，承认对妻子不忠，向家人、员工、董事会致歉。同日董事会宣布启动独立调查，但表态仍支持他继续领导公司。',
+    color: 'var(--accent-2)',
+  },
+  {
+    date: '11 月 10 日',
+    tag: '调查升级',
+    title: '外部律师介入',
+    body: '英伟达聘请外部律师主持调查。此时董事会的态度仍是“一边查、一边让他履职”——事情看起来还有转圜余地。',
+    color: 'var(--accent)',
+  },
+  {
+    date: '11 月 11 日',
+    tag: '新料爆出',
+    title: '被指与直接下属有私情',
+    body: '媒体披露，黄仁勋还与一名直接向他汇报的高管存在亲密关系。职场权力不对等的性质，让原本的“私人道德问题”升级为公司治理问题。',
+    color: 'var(--accent-2)',
+  },
+  {
+    date: '11 月 12 日',
+    tag: '闪辞',
+    title: '辞去总裁、CEO 与董事',
+    body: '英伟达宣布黄仁勋即刻辞去总裁、首席执行官及董事会成员职务。CFO 科莱特·克雷斯出任临时 CEO，董事哈维·琼斯被任命为公司史上首任董事长。英伟达市值蒸发超 1.2 万亿元人民币。',
+    color: '#c2705f',
+  },
+  {
+    date: '11 月 14 日',
+    tag: '反转',
+    title: '23 万人请愿让他回来',
+    body: '员工自发投票显示超 97% 希望黄仁勋留任；外部请愿书签名突破 2.3 万，马斯克也签了名。舆论从“道德审判”迅速转向“他真的非走不可吗”。',
+    color: 'var(--accent)',
+  },
+];
+---
+
+<div class="htl" data-timeline>
+  <div class="htl-track">
+    {events.map((ev, i) => (
+      <button
+        type="button"
+        class="htl-node"
+        data-node
+        data-index={i}
+        aria-expanded="false"
+        style={`--c: ${ev.color};`}
+      >
+        <span class="htl-dot"></span>
+        <span class="htl-date">{ev.date}</span>
+        <span class="htl-tag">{ev.tag}</span>
+      </button>
+    ))}
+    <div class="htl-line" aria-hidden="true"></div>
+  </div>
+
+  <div class="htl-detail" data-detail>
+    <p class="htl-placeholder">点击上方任意节点，查看那一天发生了什么。</p>
+  </div>
+</div>
+
+<script>
+  const events = [
+    {
+      date: '11 月 3 日',
+      tag: '中期选举',
+      title: '民主党横扫参众两院',
+      body: '民主党不仅夺回众议院，还拿下参议院，并深入得克萨斯、堪萨斯、艾奥瓦等传统红州。特朗普承认，与伊朗的军事冲突在很大程度上拖累了选情。共和党一党执政的格局结束。',
+      color: 'var(--accent)',
+    },
+    {
+      date: '11 月 8 日',
+      tag: '主动承认',
+      title: '黄仁勋官网承认婚外情',
+      body: '黄仁勋在英伟达官网发布声明，承认对妻子不忠，向家人、员工、董事会致歉。同日董事会宣布启动独立调查，但表态仍支持他继续领导公司。',
+      color: 'var(--accent-2)',
+    },
+    {
+      date: '11 月 10 日',
+      tag: '调查升级',
+      title: '外部律师介入',
+      body: '英伟达聘请外部律师主持调查。此时董事会的态度仍是“一边查、一边让他履职”——事情看起来还有转圜余地。',
+      color: 'var(--accent)',
+    },
+    {
+      date: '11 月 11 日',
+      tag: '新料爆出',
+      title: '被指与直接下属有私情',
+      body: '媒体披露，黄仁勋还与一名直接向他汇报的高管存在亲密关系。职场权力不对等的性质，让原本的“私人道德问题”升级为公司治理问题。',
+      color: 'var(--accent-2)',
+    },
+    {
+      date: '11 月 12 日',
+      tag: '闪辞',
+      title: '辞去总裁、CEO 与董事',
+      body: '英伟达宣布黄仁勋即刻辞去总裁、首席执行官及董事会成员职务。CFO 科莱特·克雷斯出任临时 CEO，董事哈维·琼斯被任命为公司史上首任董事长。英伟达市值蒸发超 1.2 万亿元人民币。',
+      color: '#c2705f',
+    },
+    {
+      date: '11 月 14 日',
+      tag: '反转',
+      title: '23 万人请愿让他回来',
+      body: '员工自发投票显示超 97% 希望黄仁勋留任；外部请愿书签名突破 2.3 万，马斯克也签了名。舆论从“道德审判”迅速转向“他真的非走不可吗”。',
+      color: 'var(--accent)',
+    },
+  ];
+
+  document.querySelectorAll('[data-timeline]').forEach((root) => {
+    const nodes = Array.from(root.querySelectorAll('[data-node]'));
+    const detail = root.querySelector('[data-detail]');
+
+    nodes.forEach((node) => {
+      node.addEventListener('click', () => {
+        const idx = Number(node.dataset.index);
+        const ev = events[idx];
+
+        nodes.forEach((n) => {
+          n.classList.remove('is-active');
+          n.setAttribute('aria-expanded', 'false');
+        });
+        node.classList.add('is-active');
+        node.setAttribute('aria-expanded', 'true');
+
+        detail.innerHTML = `
+          <div class="htl-card" style="--c: ${ev.color};">
+            <div class="htl-card-head">
+              <span class="htl-card-date">${ev.date}</span>
+              <span class="htl-card-tag">${ev.tag}</span>
+            </div>
+            <h4 class="htl-card-title">${ev.title}</h4>
+            <p class="htl-card-body">${ev.body}</p>
+          </div>
+        `;
+      });
+    });
+  });
+</script>
+
+<style>
+  .htl {
+    margin: 2rem 0 2.4rem;
+    padding: 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+  }
+
+  .htl-track {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0 1.4rem;
+    gap: 0.4rem;
+  }
+
+  .htl-line {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    top: 1.05rem;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    opacity: 0.35;
+    z-index: 0;
+  }
+
+  .htl-node {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+    flex: 1;
+  }
+
+  .htl-dot {
+    width: 0.9rem;
+    height: 0.9rem;
+    border-radius: 50%;
+    background: var(--c, var(--accent));
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 2px var(--c, var(--accent));
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .htl-node:hover .htl-dot,
+  .htl-node.is-active .htl-dot {
+    transform: scale(1.35);
+    box-shadow: 0 0 0 4px var(--c, var(--accent));
+  }
+
+  .htl-date {
+    font-size: 0.7rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .htl-tag {
+    font-size: 0.66rem;
+    color: var(--text-soft);
+    padding: 0.05rem 0.4rem;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    white-space: nowrap;
+  }
+
+  .htl-node.is-active .htl-tag {
+    background: var(--c, var(--accent));
+    color: #fff;
+  }
+
+  .htl-detail {
+    min-height: 9rem;
+    padding-top: 0.4rem;
+  }
+
+  .htl-placeholder {
+    margin: 0;
+    padding: 1rem 0;
+    color: var(--muted);
+    font-size: 0.86rem;
+    text-align: center;
+  }
+
+  .htl-card {
+    border-left: 3px solid var(--c, var(--accent));
+    padding: 0.9rem 1rem;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    background: var(--accent-soft);
+    animation: htl-fade 0.3s ease;
+  }
+
+  @keyframes htl-fade {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .htl-card-head {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    margin-bottom: 0.4rem;
+  }
+
+  .htl-card-date {
+    font-weight: 700;
+    color: var(--c, var(--accent));
+    font-size: 0.82rem;
+  }
+
+  .htl-card-tag {
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+
+  .htl-card-title {
+    margin: 0 0 0.4rem;
+    font-size: 1rem;
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  .htl-card-body {
+    margin: 0;
+    color: var(--text-soft);
+    font-size: 0.86rem;
+    line-height: 1.78;
+  }
+
+  @media (max-width: 620px) {
+    .htl-track {
+      flex-wrap: wrap;
+      gap: 0.8rem 0.4rem;
+    }
+    .htl-node {
+      flex: 0 0 30%;
+    }
+    .htl-line {
+      display: none;
+    }
+  }
+</style>

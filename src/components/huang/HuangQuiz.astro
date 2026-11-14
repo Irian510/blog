@@ -1,0 +1,207 @@
+---
+// 互动五：三道小测，答完给解析
+const questions = [
+  {
+    q: '黄仁勋下台真正的分水岭是哪一天？',
+    options: [
+      { text: '11 月 8 日，他承认婚外情那天', ok: false },
+      { text: '11 月 3 日，民主党中期选举大胜那天', ok: true },
+      { text: '11 月 12 日，英伟达官宣辞职那天', ok: false },
+    ],
+    answer:
+      '11 月 3 日民主党横扫参众两院，结束共和党一党执政。民主党历来主张收紧 AI 芯片出口、暂停数据中心建设——这才是黄仁勋命运被改写的起点。承认婚外情是 11 月 8 日，已经在选举之后。',
+  },
+  {
+    q: '为什么说“承认婚外情”可能是弃车保帅？',
+    options: [
+      { text: '因为婚外情本身不严重', ok: false },
+      { text: '用一个可承受的道德过错，盖掉更致命的国家安全指控', ok: true },
+      { text: '董事会本来就想让他走', ok: false },
+    ],
+    answer:
+      '10 月底《纽约时报》已披露美国情报机构对“黄仁勋身边人”的怀疑。主动承认婚外情，是把事件框定在“私人道德”范畴内——这比“芯片出口管制”“国家安全”这些指控可承受得多。丢婚姻，保公司。',
+  },
+  {
+    q: '英伟达 2500 亿美元的担保，真正的支撑是什么？',
+    options: [
+      { text: '英伟达的资产负债表', ok: false },
+      { text: '黄仁勋个人不会走的信用', ok: true },
+      { text: '美国政府的背书', ok: false },
+    ],
+    answer:
+      '这不是财务问题，是治理问题。2500 亿美元的担保签在英伟达的表上，但支撑它的是“黄仁勋这个人不会走”的市场共识。他一走，克雷斯可以接着签字，签不出同样的信任——这就是市值两天蒸发 1.2 万亿的根。',
+  },
+];
+---
+
+<div class="quiz" data-quiz>
+  {questions.map((item, qi) => (
+    <div class="qz-item" data-item>
+      <p class="qz-q">
+        <span class="qz-index">{String(qi + 1).padStart(2, '0')}</span>
+        {item.q}
+      </p>
+      <div class="qz-options">
+        {item.options.map((opt) => (
+          <button
+            type="button"
+            class="qz-option"
+            data-ok={opt.ok ? 'true' : 'false'}
+            data-answer={item.answer}
+          >
+            {opt.text}
+          </button>
+        ))}
+      </div>
+      <p class="qz-explain" data-explain hidden></p>
+    </div>
+  ))}
+  <div class="qz-score" data-score hidden></div>
+</div>
+
+<script>
+  document.querySelectorAll('[data-quiz]').forEach((quiz) => {
+    const items = Array.from(quiz.querySelectorAll('[data-item]'));
+    let answered = 0;
+    let correct = 0;
+
+    items.forEach((item) => {
+      const options = Array.from(item.querySelectorAll('.qz-option'));
+      const explain = item.querySelector('[data-explain]');
+
+      options.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          if (item.dataset.done === 'true') return;
+          item.dataset.done = 'true';
+          const isRight = btn.dataset.ok === 'true';
+          if (isRight) correct += 1;
+          answered += 1;
+
+          options.forEach((other) => {
+            other.disabled = true;
+            if (other.dataset.ok === 'true') other.classList.add('is-right');
+          });
+          if (!isRight) btn.classList.add('is-wrong');
+
+          explain.textContent = (isRight ? '答对了。' : '换个角度看：') + btn.dataset.answer;
+          explain.hidden = false;
+
+          if (answered === items.length) {
+            const score = quiz.querySelector('[data-score]');
+            if (score) {
+              score.textContent =
+                correct === items.length
+                  ? '三题全中。你已经学会看“台前”和“幕后”的差别了。'
+                  : `答对 ${correct} / ${items.length}。往上翻翻，双叙事切换和权力链路里藏着答案。`;
+              score.hidden = false;
+            }
+          }
+        });
+      });
+    });
+  });
+</script>
+
+<style>
+  .quiz {
+    display: grid;
+    gap: 0.9rem;
+    margin: 2rem 0 0.6rem;
+  }
+
+  .qz-item {
+    padding: 1.1rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+  }
+
+  .qz-q {
+    display: flex;
+    gap: 0.55rem;
+    margin: 0 0 0.8rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .qz-index {
+    flex: none;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.85rem;
+    line-height: 1.85;
+  }
+
+  .qz-options {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .qz-option {
+    padding: 0.55rem 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-soft);
+    font-family: inherit;
+    font-size: 0.86rem;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease,
+      transform 0.18s ease;
+  }
+
+  .qz-option:hover:not(:disabled) {
+    border-color: var(--accent-line);
+    background: var(--accent-soft);
+    color: var(--text);
+    transform: translateX(2px);
+  }
+
+  .qz-option:disabled {
+    cursor: default;
+  }
+
+  .qz-option.is-right {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--text);
+  }
+
+  .qz-option.is-wrong {
+    border-color: #c2705f;
+    background: rgba(194, 112, 95, 0.1);
+    color: var(--text);
+    text-decoration: line-through;
+    text-decoration-color: rgba(194, 112, 95, 0.6);
+  }
+
+  .qz-option:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  .qz-explain {
+    margin: 0.85rem 0 0;
+    padding: 0.7rem 0.85rem;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    background: var(--accent-soft);
+    color: var(--text-soft);
+    font-size: 0.84rem;
+    line-height: 1.78;
+  }
+
+  .qz-score {
+    margin: 0;
+    padding: 0.2rem 0.2rem 0;
+    color: var(--accent);
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+</style>

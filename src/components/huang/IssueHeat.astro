@@ -1,0 +1,238 @@
+---
+// 互动三：对比“台前舆论”与“幕后实质”——人们在讨论什么，和真正决定走向的是什么
+---
+
+<div class="heat" data-heat>
+  <div class="heat-stage">
+    <div class="heat-row">
+      <div class="heat-label">
+        <span class="heat-name">婚外情 / 个人道德</span>
+        <span class="heat-sub">台前 · 媒体与社交平台焦点</span>
+      </div>
+      <div class="heat-bar-wrap">
+        <div class="heat-bar heat-bar--loud" data-bar="loud"></div>
+        <span class="heat-pct" data-pct="loud">92%</span>
+      </div>
+    </div>
+
+    <div class="heat-row">
+      <div class="heat-label">
+        <span class="heat-name">芯片出口管制 / 国家安全</span>
+        <span class="heat-sub">幕后 · 真正决定英伟达走向</span>
+      </div>
+      <div class="heat-bar-wrap">
+        <div class="heat-bar heat-bar--real" data-bar="real"></div>
+        <span class="heat-pct" data-pct="real">8%</span>
+      </div>
+    </div>
+
+    <div class="heat-row">
+      <div class="heat-label">
+        <span class="heat-name">AI 算力主导权 / 华盛顿信任</span>
+        <span class="heat-sub">底层 · 中期选举后的权力再分配</span>
+      </div>
+      <div class="heat-bar-wrap">
+        <div class="heat-bar heat-bar--deep" data-bar="deep"></div>
+        <span class="heat-pct" data-pct="deep">0%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="heat-controls">
+    <button type="button" class="heat-btn" data-action="loud" aria-pressed="true">
+      看台前舆论
+    </button>
+    <button type="button" class="heat-btn" data-action="flip">
+      翻到幕后
+    </button>
+    <button type="button" class="heat-btn" data-action="reset">
+      重置
+    </button>
+  </div>
+
+  <p class="heat-note">
+    提示：这组数据是示意性的比例，用来表达一个观察——<strong>公众注意力被刻意引流到“道德”议题上，而决定事件走向的筹码，是民主党上台后对 AI 芯片出口和数据中心的收紧。</strong>
+  </p>
+</div>
+
+<script>
+  document.querySelectorAll('[data-heat]').forEach((root) => {
+    const bars = {
+      loud: root.querySelector('[data-bar="loud"]'),
+      real: root.querySelector('[data-bar="real"]'),
+      deep: root.querySelector('[data-bar="deep"]'),
+    };
+    const pcts = {
+      loud: root.querySelector('[data-pct="loud"]'),
+      real: root.querySelector('[data-pct="real"]'),
+      deep: root.querySelector('[data-pct="deep"]'),
+    };
+    const btns = Array.from(root.querySelectorAll('.heat-btn'));
+
+    const states = {
+      loud: { loud: 92, real: 8, deep: 0 },
+      flip: { loud: 12, real: 48, deep: 40 },
+      reset: { loud: 0, real: 0, deep: 0 },
+    };
+
+    const setBtns = (active) => {
+      btns.forEach((b) => {
+        b.classList.toggle('is-active', b.dataset.action === active);
+        b.setAttribute('aria-pressed', b.dataset.action === active ? 'true' : 'false');
+      });
+    };
+
+    const apply = (key) => {
+      const s = states[key];
+      Object.entries(bars).forEach(([k, bar]) => {
+        bar.style.width = `${s[k]}%`;
+      });
+      Object.entries(pcts).forEach(([k, p]) => {
+        p.textContent = `${s[k]}%`;
+      });
+    };
+
+    btns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        setBtns(btn.dataset.action);
+        apply(btn.dataset.action);
+      });
+    });
+
+    apply('loud');
+    setBtns('loud');
+  });
+</script>
+
+<style>
+  .heat {
+    margin: 2rem 0 2.4rem;
+    padding: 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+  }
+
+  .heat-stage {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .heat-row {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .heat-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .heat-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .heat-sub {
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .heat-bar-wrap {
+    position: relative;
+    height: 1.6rem;
+    background: rgba(15, 31, 30, 0.06);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .heat-bar {
+    height: 100%;
+    border-radius: 999px;
+    width: 0;
+    transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .heat-bar--loud {
+    background: linear-gradient(90deg, var(--accent-2), #e8a866);
+  }
+
+  .heat-bar--real {
+    background: linear-gradient(90deg, var(--accent), #2cb0b6);
+  }
+
+  .heat-bar--deep {
+    background: linear-gradient(90deg, #6a5acd, #9370db);
+  }
+
+  .heat-pct {
+    position: absolute;
+    right: 0.6rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .heat-controls {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.6rem 0 0.2rem;
+  }
+
+  .heat-btn {
+    padding: 0.45rem 1rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-soft);
+    font-family: inherit;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .heat-btn:hover {
+    border-color: var(--accent-line);
+    color: var(--text);
+  }
+
+  .heat-btn.is-active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .heat-note {
+    margin: 1rem 0 0;
+    padding: 0.7rem 0.9rem;
+    border-radius: var(--radius-sm);
+    background: rgba(15, 31, 30, 0.04);
+    color: var(--text-soft);
+    font-size: 0.82rem;
+    line-height: 1.72;
+  }
+
+  .heat-note strong {
+    color: var(--accent);
+  }
+
+  @media (max-width: 560px) {
+    .heat-row {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
+  }
+</style>
