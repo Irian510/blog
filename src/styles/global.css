@@ -625,6 +625,125 @@ html[data-theme='dark'] .theme-toggle .icon-moon {
   margin-top: 0.8rem;
 }
 
+/* ---------- 便签纸变体（仅主页 PostList variant="sticky" 启用） ---------- */
+.post-list--sticky {
+  gap: 1.4rem;
+  padding: 0.4rem 0.2rem 0.2rem;
+}
+
+.post-card--sticky {
+  --note-color: #fdf3c4;
+  --note-rotate: 0deg;
+  --note-shift: 0px;
+  --note-tape-rotate: -4deg;
+
+  background: var(--note-color);
+  border: none;
+  border-radius: 2px 2px 14px 2px;
+  box-shadow:
+    0 1px 2px rgba(15, 31, 30, 0.05),
+    0 6px 14px rgba(15, 31, 30, 0.08),
+    0 18px 32px -10px rgba(15, 31, 30, 0.08);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transform: rotate(var(--note-rotate)) translateX(var(--note-shift));
+  transition: transform 0.28s cubic-bezier(0.34, 1.4, 0.5, 1), box-shadow 0.28s ease;
+  padding-top: 1.5rem;
+}
+
+/* 顶部半透明胶带 */
+.post-card--sticky::before {
+  content: '';
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  width: 92px;
+  height: 24px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.15)),
+    rgba(221, 215, 200, 0.55);
+  border-left: 1px dashed rgba(0, 0, 0, 0.06);
+  border-right: 1px dashed rgba(0, 0, 0, 0.06);
+  transform: translateX(-50%) rotate(var(--note-tape-rotate));
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* hover：归正 + 抬起，像被揭起来 */
+.post-card--sticky:hover {
+  transform: rotate(0deg) translateX(0) translateY(-6px);
+  border-color: transparent;
+  box-shadow:
+    0 2px 4px rgba(15, 31, 30, 0.06),
+    0 12px 24px rgba(15, 31, 30, 0.12),
+    0 28px 44px -12px rgba(15, 31, 30, 0.1);
+}
+
+/* 5 色循环 + 微旋转 + 微位移，让每张便签"长得不一样" */
+.post-list--sticky > li:nth-child(5n + 1) .post-card--sticky {
+  --note-color: #fdf3c4; /* 奶黄 */
+  --note-rotate: -1.4deg;
+  --note-shift: -4px;
+  --note-tape-rotate: -4deg;
+}
+.post-list--sticky > li:nth-child(5n + 2) .post-card--sticky {
+  --note-color: #fde1e3; /* 樱花粉 */
+  --note-rotate: 1.1deg;
+  --note-shift: 6px;
+  --note-tape-rotate: 3deg;
+}
+.post-list--sticky > li:nth-child(5n + 3) .post-card--sticky {
+  --note-color: #d4f0e0; /* 薄荷绿 */
+  --note-rotate: -0.6deg;
+  --note-shift: -2px;
+  --note-tape-rotate: -2deg;
+}
+.post-list--sticky > li:nth-child(5n + 4) .post-card--sticky {
+  --note-color: #dceafa; /* 天空蓝 */
+  --note-rotate: 1.6deg;
+  --note-shift: 4px;
+  --note-tape-rotate: 5deg;
+}
+.post-list--sticky > li:nth-child(5n + 5) .post-card--sticky {
+  --note-color: #e8e0f5; /* 薰衣紫 */
+  --note-rotate: -1.8deg;
+  --note-shift: 0px;
+  --note-tape-rotate: -5deg;
+}
+
+/* 便签上的文字用固定墨色（不随明暗主题切换），保证浅色纸面可读 */
+.post-card--sticky .post-card-title {
+  color: #2c2416;
+}
+.post-card--sticky .post-card-desc {
+  color: #5a4a2f;
+}
+.post-card--sticky .post-card-date {
+  color: #8a7a55;
+}
+.post-card--sticky .post-card-link:hover {
+  color: #b8682a;
+}
+
+/* 便签上的标签 chip：半透明白底，贴在纸上的感觉 */
+.post-card--sticky .tag-pill {
+  background: rgba(255, 255, 255, 0.55);
+  color: #6a5320;
+  border-color: transparent;
+}
+.post-card--sticky .tag-pill:hover {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+/* 小屏：归正避免横向溢出，颜色和胶带仍然区分每张便签 */
+@media (max-width: 640px) {
+  .post-list--sticky > li .post-card--sticky {
+    --note-rotate: 0deg !important;
+    --note-shift: 0 !important;
+  }
+}
+
 .tag-pill {
   position: relative;
   z-index: 1;

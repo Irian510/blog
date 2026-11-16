@@ -5,18 +5,21 @@ import { formatDate } from '../lib/posts';
 
 interface Props {
   posts: CollectionEntry<'posts'>[];
+  /** default = 普通卡片；sticky = 便签纸风格（仅主页使用） */
+  variant?: 'default' | 'sticky';
 }
 
-const { posts } = Astro.props;
+const { posts, variant = 'default' } = Astro.props;
+const isSticky = variant === 'sticky';
 ---
 
 {posts.length === 0 ? (
   <p class="post-empty">暂无文章，敬请期待</p>
 ) : (
-  <ul class="post-list">
+  <ul class:list={['post-list', isSticky && 'post-list--sticky']}>
     {posts.map((post) => (
       <li>
-        <article class="post-card">
+        <article class:list={['post-card', isSticky && 'post-card--sticky']}>
           <div class="post-card-head">
             <h3 class="post-card-title">
               <a class="post-card-link" href={withBase(`/posts/${post.id}/`)}>{post.data.title}</a>

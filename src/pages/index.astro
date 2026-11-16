@@ -16,6 +16,6 @@ const posts = await getPublishedPosts();
       <h2 class="section-title">最新文章</h2>
       <a class="section-more" href={withBase('/archive/')}>全部归档 →</a>
     </div>
-    <PostList posts={posts} />
+    <PostList posts={posts} variant="sticky" />
   </section>
 </BaseLayout>
