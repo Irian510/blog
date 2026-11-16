@@ -1,0 +1,1654 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../lib/url';
+
+const days = [
+  {
+    date: '10月底',
+    weekday: '报道',
+    slots: [
+      {
+        cat: '报道',
+        when: '起点',
+        title: '《纽约时报》报道私人往来与情报风险',
+        items: [
+          '报道援引多名美国情报人员消息，称黄仁勋与新加坡企业 Megaspeed 前高管存在密切往来。',
+          '报道将私人关系与情报风险并置，形成后续报道的基本框架。',
+        ],
+        srcs: [
+          {
+            label: '新京报评论（京酿馆）· 11/10',
+            href: 'https://mp.weixin.qq.com/s?__biz=MzA3NzMxNjQzMA==&mid=2650842359&idx=1&sn=c3a2e38fe7ec84a54ab1af8acde388d5',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    date: '11/03',
+    weekday: '周二',
+    slots: [
+      {
+        cat: '选举',
+        when: '政治背景',
+        title: '美国中期选举结果出炉',
+        items: [
+          '民主党在参议院取得至少 54 席，在众议院超过 245 席。',
+          '有分析指出，席位翻转最明显的州与 AI 数据中心分布最集中的州高度重合。',
+        ],
+        srcs: [
+          {
+            label: '新京报评论（京酿馆）· 11/10',
+            href: 'https://mp.weixin.qq.com/s?__biz=MzA3NzMxNjQzMA==&mid=2650842359&idx=1&sn=c3a2e38fe7ec84a54ab1af8acde388d5',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    date: '11/08',
+    weekday: '周日',
+    slots: [
+      {
+        cat: '公司',
+        when: '公开信',
+        title: '黄仁勋承认婚外情并道歉',
+        items: [
+          '黄仁勋向员工发出公开信，承认婚外情并道歉。',
+          '董事会启动独立调查，同时公开表示支持其继续领导公司。',
+          '沃伦、加西亚宣布将于次年 1 月调查马斯克等；众议院委员会要求其 11 月 18 日出席闭门简报。',
+        ],
+        srcs: [],
+      },
+    ],
+  },
+  {
+    date: '11/09',
+    weekday: '周一',
+    slots: [
+      {
+        cat: '市场',
+        when: '首个交易日',
+        title: '股价下跌，市值蒸发约 1900 亿美元',
+        items: [
+          '英伟达收于 178.67 美元，跌 4.27%，单日市值蒸发约 1900 亿美元。',
+          '投资者提起证券集体诉讼，案号 5:26-cv-13448，诉讼期截至 11 月 8 日；夜盘继续下跌。',
+          '同日，一张将贝索斯、盖茨与黄仁勋并列的推文截图在社交平台扩散。',
+        ],
+        srcs: [
+          {
+            label: '中国新闻周刊 · 11/10 20:42',
+            href: 'https://mp.weixin.qq.com/s?__biz=MjM5MDU1Mzg3Mw==&mid=2651765813&idx=1&sn=dd1acb73b74c990f01b35251690ac870',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    date: '11/12',
+    weekday: '周四',
+    slots: [
+      {
+        cat: '报道',
+        when: '早间',
+        title: '第二段私情被报道，盘后跌 8%',
+        items: [
+          '《纽约时报》报道称，黄仁勋与英伟达全球医疗业务副总裁 Kimberly Powell 存在私情；报道称两人在宾馆内举止亲密，五名员工作证，一名录像者被要求签署保密协议。',
+          '路透社称，另有第二位内部员工。',
+          '英伟达盘后跌 8%，股价跌破 160 美元。',
+        ],
+        srcs: [
+          {
+            label: '中国新闻周刊 · 11/12 08:05',
+            href: 'https://mp.weixin.qq.com/s?__biz=MjM5MDU1Mzg3Mw==&mid=2651766117&idx=1&sn=fc373dddcf2e079f3404d26a3f7a8798',
+          },
+        ],
+      },
+      {
+        cat: '公司',
+        when: '日间',
+        title: '董事会讨论去留，媒体集中表态',
+        items: [
+          '董事会召开远程会议，讨论其去留。',
+          '《经济学人》发表 “Jensen Huang must go”；共和党参议员克莱默要求其辞职。',
+          '媒体再报其与一名直接向其汇报的高管存在私情。',
+        ],
+        srcs: [
+          {
+            label: '中国新闻周刊 · 11/13 20:10',
+            href: 'https://mp.weixin.qq.com/s?__biz=MjM5MDU1Mzg3Mw==&mid=2651766582&idx=1&sn=2e7f7bc1b695c3c3df1c79262fdbd4ef',
+          },
+          {
+            label: '《经济学人》批黄仁勋',
+            href: 'https://mp.weixin.qq.com/s?__biz=MzIwMjAyODUwOQ==&mid=2656250185&idx=1&sn=c0f0f4271ac1cb9a314982d5fb2db8e6',
+          },
+        ],
+      },
+      {
+        cat: '公司',
+        when: '晚间',
+        title: '董事会批准辞职，即刻生效',
+        items: [
+          '董事会批准其辞去总裁、CEO 及董事职务，即刻生效。',
+          'CFO 科莱特·克雷斯出任临时 CEO；公司首次设立董事长（Harvey C. Jones）。',
+          '其失去约 1.08 亿美元未归属股权。',
+          '彭博社称其“心力交瘁”，并引述其自嘲“我就是个人渣”；马斯克表示“能聘请他是荣幸”。',
+        ],
+        srcs: [
+          {
+            label: '极目新闻 · 11/12 21:55',
+            href: 'https://mp.weixin.qq.com/s?__biz=MjIyNDQ5Nzc4MQ==&mid=2652607698&idx=1&sn=a860bcc82c557024ddbf6adeca2e1dca',
+          },
+          {
+            label: '中国新闻周刊 · 11/12',
+            href: 'https://mp.weixin.qq.com/s?__biz=MjM5MDU1Mzg3Mw==&mid=2651766413&idx=1&sn=9848199d8d96e636197f055b327d9921',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    date: '11/13',
+    weekday: '周五',
+    slots: [
+      {
+        cat: '监管',
+        when: '公司资料与出口政策',
+        title: '官网移除高管信息；数据中心新规将出',
+        items: [
+          '英伟达官网“管理者简介”移除黄仁勋，仅列为创始人；高管名单首位为临时 CEO 克雷斯。',
+          '据 The Information，美国商务部即将完成新规：在禁止尖端芯片直接出口的基础上，进一步限制相关数据中心向特定国家提供云算力；报道点名新加坡、马来西亚、泰国、印尼、巴西、挪威、南非。',
+          '据报道，约 60 万枚英伟达 H200 芯片滞留香港，尚未取得中国大陆进口许可。',
+        ],
+        srcs: [
+          {
+            label: '极目新闻 · 11/13 12:29',
+            href: 'https://mp.weixin.qq.com/s/yAUBYu3i1P0pRnMmMymTXQ',
+          },
+          {
+            label: '环球时报 · 11/13 17:46',
+            href: 'https://mp.weixin.qq.com/s?__biz=MjM5MDk1NzQzMQ==&mid=2654167577&idx=1&sn=e10caea3c9803728fb1ec4a3470b5104',
+          },
+          {
+            label: '胡锡进观察 · 11/12 22:46',
+            href: 'https://mp.weixin.qq.com/s/RmCzKZWNDkNmCy0ez5KblA',
+          },
+        ],
+      },
+      {
+        cat: '市场',
+        when: '员工与投资者',
+        title: '员工留言与散户买入同时出现',
+        items: [
+          '英伟达内网“建议箱”帖超过 1600 条评论，参与投票者 97% 希望其留任；总部出现鲜花与蜡烛。',
+          '开盘后半小时，散户买入约 1.11 亿美元英伟达股票，创该股有记录以来开盘阶段最大散户买入规模。',
+          '彭博社发表“中国成最大输家”文章；环球时报发文反驳。',
+        ],
+        srcs: [
+          {
+            label: '都市快报 · 11/13 17:29',
+            href: 'https://mp.weixin.qq.com/s?__biz=MzkyMjM4NjI2OQ==&mid=2249459209&idx=1&sn=f535ca2c85b1e05909ded17ca7dd993f',
+          },
+          {
+            label: '散户抄底',
+            href: 'https://mp.weixin.qq.com/s?__biz=MjM5NTE0ODc2Nw==&mid=2650998007&idx=1&sn=c3c56f730a2648eefa087253b8911dd7',
+          },
+          {
+            label: '“中必输”',
+            href: 'https://mp.weixin.qq.com/s?__biz=MjM5MDk1NzQzMQ==&mid=2654167492&idx=1&sn=8d39c1bd7049c789f06c625706f27c6b',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    date: '11/14',
+    weekday: '周六',
+    slots: [
+      {
+        cat: '政治',
+        when: '战线扩展',
+        title: '国会要求马斯克留存相关记录',
+        items: [
+          '《华尔街日报》报道：民主党参议员要求马斯克留存星链、星盾限制乌克兰使用的全部记录。',
+          '马斯克表示将签署复职请愿；据极目新闻，97% 的英伟达员工要求其回归。',
+        ],
+        srcs: [
+          {
+            label: '光明日报 · 11/14 20:04',
+            href: 'https://mp.weixin.qq.com/s?__biz=MjM5NzM0MzQ4MQ==&mid=2654977900&idx=1&sn=11107f15ac2046e9162a1f16f9f32c92',
+          },
+          {
+            label: '极目新闻 · 11/14',
+            href: 'https://mp.weixin.qq.com/s/655FtkR3PUTu_neFUVLE0w',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    date: '11/15',
+    weekday: '周日',
+    slots: [
+      {
+        cat: '表态',
+        when: '财政部长',
+        title: '贝森特称应从外部寻找新 CEO',
+        items: [
+          '美国财政部长贝森特表示，英伟达领导层需要“重大改组”，公司应从外部寻找新的 CEO。',
+        ],
+        srcs: [
+          {
+            label: '每日经济新闻 · 11/16 10:12',
+            href: 'https://mp.weixin.qq.com/s/6rZUbQ2kOPKzwd4w3Xmxwg',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    date: '11/16',
+    weekday: '周一',
+    slots: [
+      {
+        cat: '市场',
+        when: '复职传闻',
+        title: '暗盘涨超 4%，FT 称其考虑重返',
+        items: [
+          '英伟达暗盘直线拉升，涨幅一度超过 4%；美光、SK 海力士、闪迪涨超 2%，纳指期货涨 0.60%。',
+          '据英国《金融时报》，黄仁勋正考虑重返英伟达担任 CEO，数位硅谷盟友在游说；其本人支持该行动，但华盛顿部分政策制定者反对。',
+        ],
+        srcs: [
+          {
+            label: '每日经济新闻 · 11/16 10:12',
+            href: 'https://mp.weixin.qq.com/s/6rZUbQ2kOPKzwd4w3Xmxwg',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    date: '11/18',
+    weekday: '已排定',
+    slots: [
+      {
+        cat: '国会',
+        when: '待发生',
+        title: '国会闭门听证',
+        items: [
+          '国会已排定 11 月 18 日闭门听证；民主党三个委员会换帅（坎特韦尔、沃伦、帕隆）。',
+          '公开报道列出的关注点包括芯片流向，以及白宫与数字资本的关系。',
+        ],
+        srcs: [
+          {
+            label: '光明日报 · 11/14 20:04',
+            href: 'https://mp.weixin.qq.com/s?__biz=MjM5NzM0MzQ4MQ==&mid=2654977900&idx=1&sn=11107f15ac2046e9162a1f16f9f32c92',
+          },
+          {
+            label: '环球时报 · 11/13 17:46',
+            href: 'https://mp.weixin.qq.com/s?__biz=MjM5MDk1NzQzMQ==&mid=2654167577&idx=1&sn=e10caea3c9803728fb1ec4a3470b5104',
+          },
+        ],
+      },
+    ],
+  },
+];
+
+const shots = [
+  {
+    no: '01',
+    img: '/huang/shots/shot-01.jpg',
+    title: '围剿马斯克黄仁勋，美国“蓝色浪潮”启动了“追杀令”',
+    account: '新京报评论（京酿馆）',
+    date: '11/10 10:46',
+    href: 'https://mp.weixin.qq.com/s?__biz=MzA3NzMxNjQzMA==&mid=2650842359&idx=1&sn=c3a2e38fe7ec84a54ab1af8acde388d5',
+  },
+  {
+    no: '02',
+    img: '/huang/shots/shot-02.jpg',
+    title: '黄仁勋出轨，股民不干了',
+    account: '中国新闻周刊',
+    date: '11/10 20:42',
+    href: 'https://mp.weixin.qq.com/s?__biz=MjM5MDU1Mzg3Mw==&mid=2651765813&idx=1&sn=dd1acb73b74c990f01b35251690ac870',
+  },
+  {
+    no: '03',
+    img: '/huang/shots/shot-03.jpg',
+    title: '突发！英伟达盘后跳水 8%，董事会今天或罢免黄仁勋',
+    account: '中国新闻周刊',
+    date: '11/12 08:05',
+    href: 'https://mp.weixin.qq.com/s?__biz=MjM5MDU1Mzg3Mw==&mid=2651766117&idx=1&sn=fc373dddcf2e079f3404d26a3f7a8798',
+  },
+  {
+    no: '04',
+    img: '/huang/shots/shot-04.jpg',
+    title: '英伟达宣布：黄仁勋辞职',
+    account: '极目新闻',
+    date: '11/12 21:55',
+    href: 'https://mp.weixin.qq.com/s?__biz=MjIyNDQ5Nzc4MQ==&mid=2652607698&idx=1&sn=a860bcc82c557024ddbf6adeca2e1dca',
+  },
+  {
+    no: '05',
+    img: '/huang/shots/shot-05.jpg',
+    title: '惨遭合谋摧毁，黄仁勋陷入绝境黯然辞职',
+    account: '胡锡进观察',
+    date: '11/12 22:46',
+    href: 'https://mp.weixin.qq.com/s/RmCzKZWNDkNmCy0ez5KblA',
+  },
+  {
+    no: '06',
+    img: '/huang/shots/shot-06.jpg',
+    title: '黄仁勋简历更新，英伟达官网已将他从公司高管名单移除，仅列为创始人',
+    account: '极目新闻',
+    date: '11/13 12:29',
+    href: 'https://mp.weixin.qq.com/s/yAUBYu3i1P0pRnMmMymTXQ',
+  },
+  {
+    no: '07',
+    img: '/huang/shots/shot-07.jpg',
+    title: '英伟达员工正集体发帖求挽留黄仁勋，内网已有超 1600 条留言',
+    account: '都市快报',
+    date: '11/13 17:29',
+    href: 'https://mp.weixin.qq.com/s?__biz=MzkyMjM4NjI2OQ==&mid=2249459209&idx=1&sn=f535ca2c85b1e05909ded17ca7dd993f',
+  },
+  {
+    no: '08',
+    img: '/huang/shots/shot-08.jpg',
+    title: '黄仁勋辞职后，他们掏出了匕首……',
+    account: '环球时报',
+    date: '11/13 17:46',
+    href: 'https://mp.weixin.qq.com/s?__biz=MjM5MDk1NzQzMQ==&mid=2654167577&idx=1&sn=e10caea3c9803728fb1ec4a3470b5104',
+  },
+  {
+    no: '09',
+    img: '/huang/shots/shot-09.jpg',
+    title: '出轨的巨头很多，就黄仁勋“非走不可”？',
+    account: '中国新闻周刊',
+    date: '11/13 20:10',
+    href: 'https://mp.weixin.qq.com/s?__biz=MjM5MDU1Mzg3Mw==&mid=2651766582&idx=1&sn=2e7f7bc1b695c3c3df1c79262fdbd4ef',
+  },
+  {
+    no: '10',
+    img: '/huang/shots/shot-10.jpg',
+    title: '黄仁勋之后，这两把刀砍向谁',
+    account: '光明日报',
+    date: '11/14 20:04',
+    href: 'https://mp.weixin.qq.com/s?__biz=MjM5NzM0MzQ4MQ==&mid=2654977900&idx=1&sn=11107f15ac2046e9162a1f16f9f32c92',
+  },
+  {
+    no: '11',
+    img: '/huang/shots/shot-11.jpg',
+    title: '突然，直线拉升！黄仁勋考虑重返英伟达',
+    account: '每日经济新闻',
+    date: '11/16 10:12',
+    href: 'https://mp.weixin.qq.com/s/6rZUbQ2kOPKzwd4w3Xmxwg',
+  },
+];
+
+const groups = [
+  {
+    label: '11月10日 — 11月12日',
+    items: [
+      {
+        date: '11/10',
+        title: '围剿马斯克黄仁勋，美国“蓝色浪潮”启动了“追杀令”',
+        account: '新京报评论（京酿馆）· 10:46',
+        href: 'https://mp.weixin.qq.com/s?__biz=MzA3NzMxNjQzMA==&mid=2650842359&idx=1&sn=c3a2e38fe7ec84a54ab1af8acde388d5',
+      },
+      {
+        date: '11/10',
+        title: '黄仁勋出轨，股民不干了',
+        account: '中国新闻周刊 · 20:42',
+        href: 'https://mp.weixin.qq.com/s?__biz=MjM5MDU1Mzg3Mw==&mid=2651765813&idx=1&sn=dd1acb73b74c990f01b35251690ac870',
+      },
+      {
+        date: '11/12',
+        title: '突发！英伟达盘后跳水 8%，董事会今天或罢免黄仁勋',
+        account: '中国新闻周刊 · 08:05',
+        href: 'https://mp.weixin.qq.com/s?__biz=MjM5MDU1Mzg3Mw==&mid=2651766117&idx=1&sn=fc373dddcf2e079f3404d26a3f7a8798',
+      },
+      {
+        date: '11/12',
+        title: '英伟达宣布：黄仁勋辞职',
+        account: '极目新闻 · 21:55',
+        href: 'https://mp.weixin.qq.com/s?__biz=MjIyNDQ5Nzc4MQ==&mid=2652607698&idx=1&sn=a860bcc82c557024ddbf6adeca2e1dca',
+      },
+      {
+        date: '11/12',
+        title: '黄仁勋自嘲：我就是个人渣',
+        account: '中国新闻周刊',
+        href: 'https://mp.weixin.qq.com/s?__biz=MjM5MDU1Mzg3Mw==&mid=2651766413&idx=1&sn=9848199d8d96e636197f055b327d9921',
+      },
+      {
+        date: '11/12',
+        title: '惨遭合谋摧毁，黄仁勋陷入绝境黯然辞职',
+        account: '胡锡进观察 · 22:46',
+        href: 'https://mp.weixin.qq.com/s/RmCzKZWNDkNmCy0ez5KblA',
+      },
+    ],
+  },
+  {
+    label: '11月13日 — 11月14日',
+    items: [
+      {
+        date: '11/13',
+        title: '黄仁勋简历更新，英伟达官网已将他从公司高管名单移除，仅列为创始人',
+        account: '极目新闻 · 12:29',
+        href: 'https://mp.weixin.qq.com/s/yAUBYu3i1P0pRnMmMymTXQ',
+      },
+      {
+        date: '11/13',
+        title: '英伟达员工正集体发帖求挽留黄仁勋，内网已有超 1600 条留言',
+        account: '都市快报 · 17:29',
+        href: 'https://mp.weixin.qq.com/s?__biz=MzkyMjM4NjI2OQ==&mid=2249459209&idx=1&sn=f535ca2c85b1e05909ded17ca7dd993f',
+      },
+      {
+        date: '11/13',
+        title: '黄仁勋辞职后，他们掏出了匕首……',
+        account: '环球时报 · 17:46',
+        href: 'https://mp.weixin.qq.com/s?__biz=MjM5MDk1NzQzMQ==&mid=2654167577&idx=1&sn=e10caea3c9803728fb1ec4a3470b5104',
+      },
+      {
+        date: '11/13',
+        title: '出轨的巨头很多，就黄仁勋“非走不可”？',
+        account: '中国新闻周刊 · 20:10',
+        href: 'https://mp.weixin.qq.com/s?__biz=MjM5MDU1Mzg3Mw==&mid=2651766582&idx=1&sn=2e7f7bc1b695c3c3df1c79262fdbd4ef',
+      },
+      {
+        date: '11/13',
+        title: '散户逆势疯狂抄底英伟达',
+        account: '微信推送',
+        href: 'https://mp.weixin.qq.com/s?__biz=MjM5NTE0ODc2Nw==&mid=2650998007&idx=1&sn=c3c56f730a2648eefa087253b8911dd7',
+      },
+      {
+        date: '11/13',
+        title: '黄仁勋刚辞职，美媒就臆想“中必输”',
+        account: '微信推送',
+        href: 'https://mp.weixin.qq.com/s?__biz=MjM5MDk1NzQzMQ==&mid=2654167492&idx=1&sn=8d39c1bd7049c789f06c625706f27c6b',
+      },
+      {
+        date: '11/13',
+        title: '黄仁勋出事后，他们突然发现不对劲！',
+        account: '微信推送',
+        href: 'https://mp.weixin.qq.com/s?__biz=MjM5MDk1NzQzMQ==&mid=2654166889&idx=1&sn=cad08d59c306541e19d535ca9c22a158',
+      },
+      {
+        date: '11/12—13',
+        title: '《经济学人》批黄仁勋，用词有多狠？',
+        account: '微信推送',
+        href: 'https://mp.weixin.qq.com/s?__biz=MzIwMjAyODUwOQ==&mid=2656250185&idx=1&sn=c0f0f4271ac1cb9a314982d5fb2db8e6',
+      },
+      {
+        date: '11/14',
+        title: '马斯克称将签名支持黄仁勋复职，已有 97% 英伟达员工要求回归',
+        account: '极目新闻',
+        href: 'https://mp.weixin.qq.com/s/655FtkR3PUTu_neFUVLE0w',
+      },
+      {
+        date: '11/14',
+        title: '黄仁勋之后，这两把刀砍向谁',
+        account: '光明日报 · 20:04',
+        href: 'https://mp.weixin.qq.com/s?__biz=MjM5NzM0MzQ4MQ==&mid=2654977900&idx=1&sn=11107f15ac2046e9162a1f16f9f32c92',
+      },
+    ],
+  },
+  {
+    label: '11月16日',
+    items: [
+      {
+        date: '11/16',
+        title: '突然，直线拉升！黄仁勋考虑重返英伟达',
+        account: '每日经济新闻 · 10:12',
+        href: 'https://mp.weixin.qq.com/s/6rZUbQ2kOPKzwd4w3Xmxwg',
+      },
+      {
+        date: '待核验',
+        title: '贩财局的文字分享',
+        account: '打开可能触发微信验证',
+        href: 'https://mp.weixin.qq.com/s?__biz=MzA3NzgyNDA0MA==&mid=2649620837&idx=1&sn=cbda7959666035521627ba389fe1ae0e',
+        warn: true,
+      },
+    ],
+  },
+];
+
+const notes = [
+  {
+    title: '日期口径',
+    text: '时间线中的日期以推送的发布时间为准；推送正文所述事件发生日，可能与发布日相差一至两天。标注“已排定”的节点为尚未发生、仅有预告的事项。',
+  },
+  {
+    title: '截图范围',
+    text: '11 张截图均为推送页面局部，保留了账号、标题、发布时间与底栏；阅读量、点赞、在看等数据为截图时的状态，会随时间变化。',
+  },
+  {
+    title: '链接状态',
+    text: '18 条原文中，17 条可直接跳转；第 18 条“贩财局的文字分享”打开时可能触发微信验证，尚未完成内容核验，仅作留存。',
+  },
+  {
+    title: '定位与引用',
+    text: '本页只作事实与材料补充，分析框架、阶段划分与结论见《下台不到 48 小时，23 万人请他回来》，不在此重复。涉及个人私德的内容仅转述公开报道，不构成事实认定或道德评价。',
+  },
+];
+---
+
+<BaseLayout
+  title="黄仁勋事件：事实时间线与推送材料"
+  description="2026 年 10 月底至 11 月 18 日的公开报道时间线、11 张微信推送截图与 18 条原文索引。"
+>
+  <div class="huang-page" id="top">
+    <header class="h-hero">
+      <p class="h-eyebrow">事件整理 · EVENT DOSSIER</p>
+      <h1>黄仁勋事件</h1>
+      <p class="h-sub">事实时间线与推送材料</p>
+      <p class="h-desc">
+        按时间顺序整理 2026 年 10 月底至 11 月 18 日的公开报道节点、11 张微信推送截图与 18 条原文链接。
+        本页只呈现事实与材料，分析框架与判断不在此展开。
+      </p>
+      <div class="h-meta">
+        <span>2026.10 — 11.18</span>
+        <span>10 个日期</span>
+        <span>11 张截图</span>
+        <span>18 篇原文</span>
+      </div>
+    </header>
+
+    <div class="h-layout">
+      <aside class="h-side">
+        <p class="h-side-label">导览</p>
+        <nav class="h-nav" aria-label="页面导览">
+          <a class="on" href="#timeline"><span>01</span>时间线</a>
+          <a href="#shots"><span>02</span>推送截图</a>
+          <a href="#sources"><span>03</span>原文索引</a>
+          <a href="#notes"><span>04</span>材料说明</a>
+        </nav>
+        <div class="h-side-meta">
+          <p>资料范围</p>
+          <strong>2026.10 底 — 11.18</strong>
+          <p>整理于 2026.11.16</p>
+        </div>
+      </aside>
+
+      <div class="h-main">
+        <section class="h-sec" id="timeline">
+          <div class="h-sec-head">
+            <p class="h-kicker">01 / TIMELINE</p>
+            <h2>事件时间线</h2>
+            <p>以推送发布时间与报道所述日期为准。部分节点为多家媒体的连续报道，已合并到同一日期下。</p>
+          </div>
+
+          <div class="h-timeline">
+            {days.map((day) => (
+              <div class="h-day">
+                <div class="h-day-date">
+                  {day.date}
+                  <span>{day.weekday}</span>
+                </div>
+                <div class="h-day-body">
+                  {day.slots.map((slot) => (
+                    <article class="h-slot">
+                      <div class="h-slot-head">
+                        <span class="h-cat">{slot.cat}</span>
+                        <span class="h-when">{slot.when}</span>
+                      </div>
+                      <h3>{slot.title}</h3>
+                      <ul>
+                        {slot.items.map((item) => <li>{item}</li>)}
+                      </ul>
+                      {slot.srcs.length > 0 && (
+                        <div class="h-src">
+                          {slot.srcs.map((src) => (
+                            <a href={src.href} target="_blank" rel="noopener noreferrer">{src.label}</a>
+                          ))}
+                        </div>
+                      )}
+                    </article>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section class="h-sec" id="shots">
+          <div class="h-sec-head">
+            <p class="h-kicker">02 / SCREENSHOTS</p>
+            <h2>推送截图</h2>
+            <p>共 11 张，按发布时间排列。截图为推送页面局部，阅读量等数据为截图时状态；点击可放大查看，并可跳转原文。</p>
+          </div>
+
+          <div class="h-shots">
+            {shots.map((shot) => (
+              <button
+                type="button"
+                class:list={['h-shot', shot.no === '03' && 'is-wide']}
+                data-shot
+                data-full={withBase(shot.img)}
+                data-title={shot.title}
+                data-meta={`${shot.account} · ${shot.date}`}
+                data-href={shot.href}
+              >
+                <span class="h-shot-im">
+                  <img src={withBase(shot.img)} alt={`${shot.account}推送截图`} loading="lazy" />
+                  <span class="h-shot-no">{shot.no}</span>
+                </span>
+                <span class="h-shot-cap">
+                  <span class="h-shot-title">{shot.title}</span>
+                  <span class="h-shot-meta">
+                    <span>{shot.account}</span>
+                    <span>{shot.date}</span>
+                  </span>
+                </span>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <section class="h-sec" id="sources">
+          <div class="h-sec-head">
+            <p class="h-kicker">03 / SOURCES</p>
+            <h2>原文索引</h2>
+            <p>共 18 条，按发布时间排序。账号名以截图显示为准；未截图核对的条目仅标注“微信推送”。</p>
+          </div>
+
+          {groups.map((group) => (
+            <div class="h-group">
+              <h3>{group.label}</h3>
+              {group.items.map((item) => (
+                <a class="h-item" href={item.href} target="_blank" rel="noopener noreferrer">
+                  <span class="h-item-date">{item.date}</span>
+                  <span class="h-item-body">
+                    <span class="h-item-title">
+                      {item.title}
+                      {item.warn && <em class="h-warn">需验证</em>}
+                    </span>
+                    <span class="h-item-account">{item.account}</span>
+                  </span>
+                  <span class="h-item-arrow">↗</span>
+                </a>
+              ))}
+            </div>
+          ))}
+        </section>
+
+        <section class="h-sec" id="notes">
+          <div class="h-sec-head">
+            <p class="h-kicker">04 / NOTES</p>
+            <h2>材料说明</h2>
+            <p>以下四项为引用与核对时需要注意的口径问题。</p>
+          </div>
+
+          <div class="h-notes">
+            {notes.map((note, i) => (
+              <div class="h-note">
+                <span class="h-note-no">{String(i + 1).padStart(2, '0')}</span>
+                <h3>{note.title}</h3>
+                <p>{note.text}</p>
+              </div>
+            ))}
+          </div>
+
+          <div class="h-related">
+            <p>相关阅读</p>
+            <a href={withBase('/posts/huang-resignation/')}>
+              下台不到 48 小时，23 万人请他回来：黄仁勋事件背后的三层棋局
+              <span>↗</span>
+            </a>
+          </div>
+        </section>
+
+        <footer class="h-foot">
+          <p><b>黄仁勋事件：事实时间线与推送材料</b></p>
+          <p>资料范围：2026 年 10 月底至 11 月 18 日；11 张推送截图、18 条微信推送、5 份视频文稿。</p>
+          <p>整理日期：2026 年 11 月 16 日。引用请核对原文。</p>
+        </footer>
+      </div>
+    </div>
+
+    <div class="h-lb" aria-hidden="true">
+      <button class="h-lb-close" type="button" aria-label="关闭">×</button>
+      <div class="h-lb-body">
+        <img src="" alt="" />
+        <div class="h-lb-bar">
+          <div class="h-lb-text">
+            <h4></h4>
+            <span></span>
+          </div>
+          <a href="#" target="_blank" rel="noopener noreferrer">打开原文 ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  main .container:has(.huang-page) {
+    max-width: 1180px;
+    padding-top: 1.5rem;
+  }
+
+  body:has(.huang-page) .nav-inner {
+    max-width: 1180px;
+  }
+</style>
+
+<style>
+  .huang-page {
+    --h-green: #3f7a5d;
+    --h-green-2: #7cab8d;
+    --h-green-soft: rgba(63, 122, 93, 0.08);
+    --h-green-line: rgba(63, 122, 93, 0.22);
+    --h-paper: rgba(255, 255, 255, 0.55);
+  }
+
+  :global(html[data-theme='dark']) .huang-page {
+    --h-green: #7fc4a1;
+    --h-green-2: #a9d9be;
+    --h-green-soft: rgba(127, 196, 161, 0.12);
+    --h-green-line: rgba(127, 196, 161, 0.28);
+    --h-paper: rgba(18, 38, 36, 0.5);
+  }
+
+  /* ---------- 头部 ---------- */
+  .h-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 2.4rem 2.4rem 2rem;
+    border: 1px solid var(--h-green-line);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(228, 245, 234, 0.66));
+    box-shadow: var(--shadow-md);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+  }
+
+  :global(html[data-theme='dark']) .h-hero {
+    background: linear-gradient(135deg, rgba(24, 48, 44, 0.72), rgba(16, 38, 30, 0.6));
+  }
+
+  .h-hero::before,
+  .h-hero::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .h-hero::before {
+    width: 320px;
+    height: 320px;
+    right: -80px;
+    top: -140px;
+    background: radial-gradient(circle, rgba(124, 171, 141, 0.32), transparent 68%);
+  }
+
+  .h-hero::after {
+    width: 220px;
+    height: 220px;
+    right: 180px;
+    bottom: -150px;
+    background: radial-gradient(circle, rgba(63, 122, 93, 0.18), transparent 70%);
+  }
+
+  .h-eyebrow {
+    position: relative;
+    margin: 0 0 0.9rem;
+    color: var(--h-green);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+  }
+
+  .h-hero h1 {
+    position: relative;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    color: var(--text);
+  }
+
+  .h-sub {
+    position: relative;
+    margin: 0.5rem 0 0;
+    font-family: var(--font-serif);
+    font-size: 1.08rem;
+    color: var(--h-green);
+    letter-spacing: 0.06em;
+  }
+
+  .h-desc {
+    position: relative;
+    margin: 1.1rem 0 0;
+    max-width: 46em;
+    color: var(--text-soft);
+    font-size: 0.9rem;
+    line-height: 1.8;
+  }
+
+  .h-meta {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.6rem;
+    margin-top: 1.35rem;
+  }
+
+  .h-meta span {
+    padding: 0.2rem 0.75rem;
+    border: 1px solid var(--h-green-line);
+    border-radius: 999px;
+    background: var(--h-green-soft);
+    color: var(--h-green);
+    font-size: 0.76rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- 两栏布局 ---------- */
+  .h-layout {
+    display: grid;
+    grid-template-columns: 196px minmax(0, 1fr);
+    gap: 2.4rem;
+    margin-top: 2.2rem;
+    align-items: start;
+  }
+
+  .h-side {
+    position: sticky;
+    top: 5.2rem;
+  }
+
+  .h-side-label {
+    margin: 0 0 0.7rem;
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+  }
+
+  .h-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    border-left: 1px solid var(--border);
+  }
+
+  .h-nav a {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-left: -1px;
+    padding: 0.5rem 0.5rem 0.5rem 0.9rem;
+    border-left: 2px solid transparent;
+    color: var(--muted);
+    font-size: 0.87rem;
+    transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+  }
+
+  .h-nav a span {
+    color: var(--h-green-2);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.02em;
+  }
+
+  .h-nav a:hover {
+    color: var(--text);
+    background: var(--h-green-soft);
+  }
+
+  .h-nav a.on {
+    border-left-color: var(--h-green);
+    background: var(--h-green-soft);
+    color: var(--h-green);
+    font-weight: 600;
+  }
+
+  .h-side-meta {
+    margin-top: 1.4rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--h-paper);
+  }
+
+  .h-side-meta p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.72rem;
+    line-height: 1.7;
+  }
+
+  .h-side-meta strong {
+    display: block;
+    margin: 0.15rem 0 0.4rem;
+    color: var(--text-soft);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  /* ---------- 区块 ---------- */
+  .h-sec {
+    scroll-margin-top: 5.5rem;
+    margin-bottom: 3.4rem;
+  }
+
+  .h-sec-head {
+    margin-bottom: 1.4rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .h-kicker {
+    margin: 0 0 0.35rem;
+    color: var(--h-green);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+  }
+
+  .h-sec-head h2 {
+    margin: 0 0 0.4rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.4rem, 2.6vw, 1.7rem);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+
+  .h-sec-head p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.75;
+  }
+
+  /* ---------- 时间线 ---------- */
+  .h-timeline {
+    padding-top: 0.2rem;
+  }
+
+  .h-day {
+    display: grid;
+    grid-template-columns: 74px minmax(0, 1fr);
+    gap: 1.1rem;
+    padding-bottom: 1.15rem;
+  }
+
+  .h-day:last-child {
+    padding-bottom: 0;
+  }
+
+  .h-day-date {
+    padding-top: 0.9rem;
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+    color: var(--text);
+  }
+
+  .h-day-date span {
+    display: block;
+    margin-top: 0.2rem;
+    color: var(--muted);
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 400;
+  }
+
+  .h-day-body {
+    position: relative;
+    padding-left: 1.15rem;
+    border-left: 1px solid var(--border);
+  }
+
+  .h-day-body::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 1.12rem;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--h-green);
+    box-shadow: 0 0 0 3px var(--bg);
+  }
+
+  .h-day:last-child .h-day-body {
+    border-left-color: transparent;
+  }
+
+  .h-slot {
+    margin-bottom: 0.7rem;
+    padding: 1rem 1.15rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+  }
+
+  .h-slot:last-child {
+    margin-bottom: 0;
+  }
+
+  .h-slot-head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .h-cat {
+    padding: 0.05rem 0.45rem;
+    border: 1px solid var(--h-green-line);
+    border-radius: 999px;
+    background: var(--h-green-soft);
+    color: var(--h-green);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+  }
+
+  .h-when {
+    color: var(--muted);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+  }
+
+  .h-slot h3 {
+    margin: 0 0 0.45rem;
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  .h-slot ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .h-slot li {
+    position: relative;
+    padding-left: 0.85rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-soft);
+    font-size: 0.86rem;
+    line-height: 1.8;
+  }
+
+  .h-slot li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.78rem;
+    width: 5px;
+    height: 1px;
+    background: var(--h-green-2);
+  }
+
+  .h-src {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.9rem;
+    margin-top: 0.55rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed var(--border);
+  }
+
+  .h-src a {
+    color: var(--h-green);
+    font-size: 0.75rem;
+    border-bottom: 1px solid var(--h-green-line);
+  }
+
+  .h-src a:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent-line);
+  }
+
+  /* ---------- 截图 ---------- */
+  .h-shots {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+
+  .h-shot {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    cursor: zoom-in;
+    font-family: inherit;
+    text-align: left;
+    color: inherit;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  }
+
+  .h-shot:hover {
+    transform: translateY(-3px);
+    border-color: var(--h-green-line);
+    box-shadow: var(--shadow-md);
+  }
+
+  .h-shot-im {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--h-green-soft);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .h-shot-im img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform 0.45s ease;
+  }
+
+  .h-shot:hover .h-shot-im img {
+    transform: scale(1.04);
+  }
+
+  .h-shot.is-wide .h-shot-im img {
+    object-fit: contain;
+  }
+
+  .h-shot-no {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.55rem;
+    padding: 0.02rem 0.4rem;
+    border-radius: 4px;
+    background: rgba(16, 36, 28, 0.62);
+    color: #eef7f1;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.04em;
+  }
+
+  .h-shot-cap {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0.65rem 0.75rem 0.7rem;
+  }
+
+  .h-shot-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 0.83rem;
+    font-weight: 600;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .h-shot-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.45rem;
+    color: var(--muted);
+    font-size: 0.7rem;
+  }
+
+  /* ---------- 原文索引 ---------- */
+  .h-group {
+    margin-bottom: 1.3rem;
+  }
+
+  .h-group h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin: 0 0 0.2rem;
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+  }
+
+  .h-group h3::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .h-item {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr) 18px;
+    gap: 0.6rem;
+    align-items: start;
+    padding: 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--border);
+    border-radius: 6px;
+    color: inherit;
+    transition: background 0.16s ease;
+  }
+
+  .h-item:hover {
+    background: var(--h-green-soft);
+  }
+
+  .h-item-date {
+    padding-top: 0.1rem;
+    color: var(--h-green);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .h-item-body {
+    display: block;
+    min-width: 0;
+  }
+
+  .h-item-title {
+    color: var(--text);
+    font-size: 0.87rem;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  .h-item-account {
+    display: block;
+    margin-top: 0.1rem;
+    color: var(--muted);
+    font-size: 0.72rem;
+  }
+
+  .h-item-arrow {
+    color: var(--h-green-2);
+    font-size: 0.85rem;
+    text-align: right;
+    transition: transform 0.18s ease;
+  }
+
+  .h-item:hover .h-item-arrow {
+    transform: translate(2px, -2px);
+  }
+
+  .h-warn {
+    margin-left: 0.4rem;
+    padding: 0 0.3rem;
+    border: 1px solid var(--accent-line);
+    border-radius: 3px;
+    color: var(--accent-2);
+    font-size: 0.63rem;
+    font-style: normal;
+  }
+
+  /* ---------- 材料说明 ---------- */
+  .h-notes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .h-note {
+    position: relative;
+    padding: 1rem 1.1rem 1.05rem 1.15rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--h-paper);
+  }
+
+  .h-note-no {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--h-green-2);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+  }
+
+  .h-note h3 {
+    margin: 0 0 0.35rem;
+    font-family: var(--font-serif);
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .h-note p {
+    margin: 0;
+    color: var(--text-soft);
+    font-size: 0.82rem;
+    line-height: 1.8;
+  }
+
+  .h-related {
+    margin-top: 1.4rem;
+    padding: 1rem 1.15rem;
+    border: 1px solid var(--h-green-line);
+    border-radius: var(--radius);
+    background: var(--h-green-soft);
+  }
+
+  .h-related p {
+    margin: 0 0 0.25rem;
+    color: var(--h-green);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+  }
+
+  .h-related a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--text);
+    font-family: var(--font-serif);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .h-related a span {
+    flex: none;
+    color: var(--h-green);
+  }
+
+  .h-related a:hover {
+    color: var(--h-green);
+  }
+
+  .h-foot {
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.76rem;
+    line-height: 1.9;
+  }
+
+  .h-foot p {
+    margin: 0 0 0.25rem;
+  }
+
+  .h-foot b {
+    color: var(--text-soft);
+    font-weight: 600;
+  }
+
+  /* ---------- 灯箱 ---------- */
+  .h-lb {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: rgba(6, 18, 15, 0.9);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .h-lb.open {
+    display: flex;
+  }
+
+  .h-lb-close {
+    position: absolute;
+    top: 1.1rem;
+    right: 1.2rem;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.35);
+    color: #eef7f1;
+    font-size: 1.35rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .h-lb-body {
+    display: flex;
+    flex-direction: column;
+    max-width: min(760px, 92vw);
+    max-height: 88vh;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #0e1a16;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  }
+
+  .h-lb-body img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: calc(88vh - 64px);
+    object-fit: contain;
+    margin: 0 auto;
+    background: #0e1a16;
+  }
+
+  .h-lb-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.65rem 0.9rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .h-lb-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .h-lb-text h4 {
+    margin: 0;
+    overflow: hidden;
+    color: #eef7f1;
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.5;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .h-lb-text span {
+    color: rgba(238, 247, 241, 0.6);
+    font-size: 0.7rem;
+  }
+
+  .h-lb-bar a {
+    flex: none;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid rgba(143, 214, 179, 0.4);
+    border-radius: 999px;
+    color: #a9d9be;
+    font-size: 0.75rem;
+  }
+
+  .h-lb-bar a:hover {
+    background: rgba(143, 214, 179, 0.12);
+  }
+
+  /* ---------- 响应式 ---------- */
+  @media (max-width: 980px) {
+    .h-layout {
+      grid-template-columns: 1fr;
+      gap: 1.2rem;
+    }
+
+    .h-side {
+      position: static;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      overflow-x: auto;
+      padding-bottom: 0.3rem;
+    }
+
+    .h-side-label,
+    .h-side-meta {
+      display: none;
+    }
+
+    .h-nav {
+      flex-direction: row;
+      gap: 0.3rem;
+      border-left: 0;
+    }
+
+    .h-nav a {
+      margin-left: 0;
+      padding: 0.4rem 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--h-paper);
+      white-space: nowrap;
+    }
+
+    .h-nav a.on {
+      border-color: var(--h-green-line);
+    }
+
+    .h-shots {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .h-hero {
+      padding: 1.6rem 1.25rem 1.4rem;
+    }
+
+    .h-day {
+      grid-template-columns: 60px minmax(0, 1fr);
+      gap: 0.8rem;
+    }
+
+    .h-day-date {
+      padding-top: 0.8rem;
+      font-size: 0.8rem;
+    }
+
+    .h-slot {
+      padding: 0.85rem 0.9rem;
+    }
+
+    .h-notes {
+      grid-template-columns: 1fr;
+    }
+
+    .h-shots {
+      gap: 0.6rem;
+    }
+
+    .h-shot-title {
+      font-size: 0.78rem;
+    }
+
+    .h-lb {
+      padding: 0.75rem;
+    }
+
+    .h-item {
+      grid-template-columns: 48px minmax(0, 1fr) 16px;
+      padding: 0.55rem 0.2rem;
+    }
+  }
+</style>
+
+<script>
+  function bootHuang() {
+    const root = document.querySelector<HTMLElement>('.huang-page');
+    if (!root || root.dataset.booted === '1') return;
+    root.dataset.booted = '1';
+
+    const lb = root.querySelector<HTMLElement>('.h-lb');
+    const lbImg = root.querySelector<HTMLImageElement>('.h-lb-body img');
+    const lbTitle = root.querySelector<HTMLElement>('.h-lb-text h4');
+    const lbMeta = root.querySelector<HTMLElement>('.h-lb-text span');
+    const lbLink = root.querySelector<HTMLAnchorElement>('.h-lb-bar a');
+    const lbClose = root.querySelector<HTMLButtonElement>('.h-lb-close');
+
+    const openLb = (btn: HTMLElement) => {
+      if (!lb || !lbImg || !lbTitle || !lbMeta || !lbLink) return;
+      lbImg.src = btn.dataset.full || '';
+      lbImg.alt = btn.dataset.title || '';
+      lbTitle.textContent = btn.dataset.title || '';
+      lbMeta.textContent = btn.dataset.meta || '';
+      lbLink.href = btn.dataset.href || '#';
+      lb.classList.add('open');
+      lb.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeLb = () => {
+      if (!lb) return;
+      lb.classList.remove('open');
+      lb.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    root.querySelectorAll<HTMLElement>('[data-shot]').forEach((btn) => {
+      btn.addEventListener('click', () => openLb(btn));
+    });
+
+    lbClose?.addEventListener('click', closeLb);
+    lb?.addEventListener('click', (e) => {
+      if (e.target === lb || e.target === lbImg) closeLb();
+    });
+
+    if (!(window as any).__huangEscBound) {
+      (window as any).__huangEscBound = true;
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          document.querySelector('.h-lb.open')?.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+
+    const links = Array.from(root.querySelectorAll<HTMLAnchorElement>('.h-nav a'));
+    const sections = links
+      .map((a) => document.querySelector<HTMLElement>(a.getAttribute('href') || ''))
+      .filter((el): el is HTMLElement => Boolean(el));
+
+    const syncNav = () => {
+      const y = window.scrollY + 140;
+      let active = 0;
+      sections.forEach((section, i) => {
+        if (section.offsetTop <= y) active = i;
+      });
+      links.forEach((link, i) => link.classList.toggle('on', i === active));
+    };
+
+    if ((window as any).__huangSyncNav) {
+      window.removeEventListener('scroll', (window as any).__huangSyncNav);
+    }
+    (window as any).__huangSyncNav = syncNav;
+    window.addEventListener('scroll', syncNav, { passive: true });
+    syncNav();
+  }
+
+  bootHuang();
+  document.addEventListener('astro:page-load', bootHuang);
+</script>
