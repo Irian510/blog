@@ -90,7 +90,8 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: transparent;
+  /* 注意：不能用 background: transparent，PostCSS 会错误重写成 background:0 0 */
+  background-color: transparent;
   color: var(--text);
   font-family: var(--font-sans);
   font-size: 16px;
