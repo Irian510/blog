@@ -626,44 +626,51 @@ html[data-theme='dark'] .theme-toggle .icon-moon {
 }
 
 /* ---------- 便签纸变体（仅主页 PostList variant="sticky" 启用） ---------- */
+/* 便签"底色"基于主题变量 --card，每张用不同 accent 色相的半透明叠染，
+   亮暗两态都跟主卡保持同一套视觉逻辑，不再硬编码纸色。 */
 .post-list--sticky {
   gap: 1.4rem;
   padding: 0.4rem 0.2rem 0.2rem;
 }
 
 .post-card--sticky {
-  --note-color: #fdf3c4;
+  --note-tint: transparent;
   --note-rotate: 0deg;
   --note-shift: 0px;
   --note-tape-rotate: -4deg;
 
-  background: var(--note-color);
+  background: color-mix(in srgb, var(--card), var(--note-tint) 22%);
   border: none;
   border-radius: 2px 2px 14px 2px;
   box-shadow:
-    0 1px 2px rgba(15, 31, 30, 0.05),
-    0 6px 14px rgba(15, 31, 30, 0.08),
-    0 18px 32px -10px rgba(15, 31, 30, 0.08);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+    0 1px 2px rgba(15, 31, 30, 0.06),
+    0 6px 16px rgba(15, 31, 30, 0.1),
+    0 22px 40px -14px rgba(15, 31, 30, 0.1);
+  backdrop-filter: var(--glass);
+  -webkit-backdrop-filter: var(--glass);
   transform: rotate(var(--note-rotate)) translateX(var(--note-shift));
   transition: transform 0.28s cubic-bezier(0.34, 1.4, 0.5, 1), box-shadow 0.28s ease;
   padding-top: 1.5rem;
 }
 
-/* 顶部半透明胶带 */
+/* 顶部胶带：底色跟随 --note-tint，两端淡入 */
 .post-card--sticky::before {
   content: '';
   position: absolute;
   top: -11px;
   left: 50%;
   width: 92px;
-  height: 24px;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.15)),
-    rgba(221, 215, 200, 0.55);
-  border-left: 1px dashed rgba(0, 0, 0, 0.06);
-  border-right: 1px dashed rgba(0, 0, 0, 0.06);
+  height: 22px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    color-mix(in srgb, var(--note-tint) 70%, transparent) 15%,
+    color-mix(in srgb, var(--note-tint) 60%, var(--card)) 50%,
+    color-mix(in srgb, var(--note-tint) 70%, transparent) 85%,
+    transparent 100%
+  );
+  border-left: 1px dashed color-mix(in srgb, var(--note-tint) 30%, transparent);
+  border-right: 1px dashed color-mix(in srgb, var(--note-tint) 30%, transparent);
   transform: translateX(-50%) rotate(var(--note-tape-rotate));
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   pointer-events: none;
@@ -675,65 +682,67 @@ html[data-theme='dark'] .theme-toggle .icon-moon {
   transform: rotate(0deg) translateX(0) translateY(-6px);
   border-color: transparent;
   box-shadow:
-    0 2px 4px rgba(15, 31, 30, 0.06),
-    0 12px 24px rgba(15, 31, 30, 0.12),
-    0 28px 44px -12px rgba(15, 31, 30, 0.1);
+    0 2px 4px rgba(15, 31, 30, 0.08),
+    0 14px 28px rgba(15, 31, 30, 0.14),
+    0 32px 48px -12px rgba(15, 31, 30, 0.12);
 }
 
-/* 5 色循环 + 微旋转 + 微位移，让每张便签"长得不一样" */
+/* 5 张便签的 tint 色：都来自主题 accent 系，只是色相/透明度不同。
+   亮暗主题下各自自动适配，不再硬编码独立纸色。 */
 .post-list--sticky > li:nth-child(5n + 1) .post-card--sticky {
-  --note-color: #fdf3c4; /* 奶黄 */
+  --note-tint: var(--accent);        /* 主题主色 */
   --note-rotate: -1.4deg;
   --note-shift: -4px;
   --note-tape-rotate: -4deg;
 }
 .post-list--sticky > li:nth-child(5n + 2) .post-card--sticky {
-  --note-color: #fde1e3; /* 樱花粉 */
+  --note-tint: var(--accent-2);      /* 主题辅色 */
   --note-rotate: 1.1deg;
   --note-shift: 6px;
   --note-tape-rotate: 3deg;
 }
 .post-list--sticky > li:nth-child(5n + 3) .post-card--sticky {
-  --note-color: #d4f0e0; /* 薄荷绿 */
+  --note-tint: color-mix(in srgb, var(--accent) 70%, #9dd3a5); /* 青绿调 */
   --note-rotate: -0.6deg;
   --note-shift: -2px;
   --note-tape-rotate: -2deg;
 }
 .post-list--sticky > li:nth-child(5n + 4) .post-card--sticky {
-  --note-color: #dceafa; /* 天空蓝 */
+  --note-tint: color-mix(in srgb, var(--accent) 60%, var(--accent-2) 40%); /* 暖青 */
   --note-rotate: 1.6deg;
   --note-shift: 4px;
   --note-tape-rotate: 5deg;
 }
 .post-list--sticky > li:nth-child(5n + 5) .post-card--sticky {
-  --note-color: #e8e0f5; /* 薰衣紫 */
+  --note-tint: color-mix(in srgb, var(--accent-2) 70%, #b887d6); /* 暖紫 */
   --note-rotate: -1.8deg;
   --note-shift: 0px;
   --note-tape-rotate: -5deg;
 }
 
-/* 便签上的文字用固定墨色（不随明暗主题切换），保证浅色纸面可读 */
+/* 文字回到主题变量，亮暗两态自动可读 */
 .post-card--sticky .post-card-title {
-  color: #2c2416;
+  color: var(--text);
 }
 .post-card--sticky .post-card-desc {
-  color: #5a4a2f;
+  color: var(--text-soft);
 }
 .post-card--sticky .post-card-date {
-  color: #8a7a55;
+  color: var(--muted);
 }
 .post-card--sticky .post-card-link:hover {
-  color: #b8682a;
+  color: var(--accent);
 }
 
-/* 便签上的标签 chip：半透明白底，贴在纸上的感觉 */
+/* 标签 chip：用 accent 变量，贴在 tinted 背景上仍能识别 */
 .post-card--sticky .tag-pill {
-  background: rgba(255, 255, 255, 0.55);
-  color: #6a5320;
+  background: var(--accent-soft);
+  color: var(--accent);
   border-color: transparent;
 }
 .post-card--sticky .tag-pill:hover {
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--accent);
+  color: #fff;
 }
 
 /* 小屏：归正避免横向溢出，颜色和胶带仍然区分每张便签 */
